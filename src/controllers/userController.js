@@ -13,3 +13,5 @@ export const createUser = async (name, lastname, mail, password) => {
   });
   return userCreated;
 };
+
+export const getUsers = async () => {};
