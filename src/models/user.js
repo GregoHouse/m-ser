@@ -1,4 +1,3 @@
-// modelo de factura de usuario
 const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
@@ -10,11 +9,11 @@ module.exports = (sequelize) => {
         primaryKey: true,
         autoIncrement: true,
       },
-      id_location: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-      },
+      // id_location: {
+      //   type: DataTypes.INTEGER,
+      //   primaryKey: true,
+      //   autoIncrement: true,
+      // },
       name: {
         type: DataTypes.STRING,
       },
