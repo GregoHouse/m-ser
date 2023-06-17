@@ -25,7 +25,7 @@ const recoveryPassword = async (email) => {
         secure: true, // true for 465, false for other ports
         auth: {
             user: "diegoamundaray2017@gmail.com", // generated ethereal user
-            pass: "mqubdxwmzrkovhuf", // generated ethereal password
+            pass: "", // generated ethereal password
         },
     });
 
