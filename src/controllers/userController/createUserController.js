@@ -5,8 +5,6 @@
 // const { PASSWORD_EMAIL,EMAIL_ADDRES} = process.env;
 // const nodemailer = require("nodemailer")
 
-
-
 // const createUser = async (req) => {
 
 //     let {
@@ -135,8 +133,6 @@
 //     }
 // }
 
-
-
 // const createUserController = async (req,res) =>{
 //     try {
 //         const result = await createUser(req)
@@ -147,3 +143,15 @@
 //     }
 // }
 // module.exports = {createUserController}
+
+// const createUserController = async (req,res) =>{
+//     try {
+//         const result = await createUser(req)
+//         res.json(result)
+//     } catch (error) {
+//         console.log(error.message);
+//         res.status(400).json({error:error.message})
+//     }
+// }
+
+// module.exports = { createUserController };
