@@ -1,4 +1,4 @@
-const { User } = require("../db");
+const { User } = require("../../db");
 const bcrypt = require("bcrypt")
 // const { cloudiconfig, loadPhoto } = require("../../../utils/cloudinary")
 //! const getUserinfo = require("./")
@@ -7,7 +7,7 @@ const bcrypt = require("bcrypt")
 
 
 
-const createUser = async (req) => {
+const createUserController = async (req) => {
 
     let {
         name, lastname, gender, day_birth, email, phone, credit_card_warranty, password} = req.body;
@@ -132,24 +132,4 @@ const createUser = async (req) => {
     }
 }
 
-// const createUserController = async (req,res) =>{
-//     try {
-//         const result = await createUser(req)
-//         res.json(result)
-//     } catch (error) {
-//         console.log(error.message);
-//         res.status(400).json({error:error.message})
-//     }
-// }
-// module.exports = {createUserController}
-
-const createUserController = async (req,res) =>{
-    try {
-        const result = await createUser(req)
-        res.status(200).json(result)
-    } catch (error) {
-        console.log(error.message);
-        res.status(400).json({error:error.message})
-    }
-}
 module.exports = {createUserController}

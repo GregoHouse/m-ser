@@ -1,6 +1,6 @@
-import { getUsersController } from "../controllers/userController/getUsersController";
+const getUsersController = require("../controllers/userController/getUsersController.js");
 
-const getUsersHandler = async (req, res) => {
+const userHandler = async (req, res) => {
   try {
     const allUsers = await getUsersController();
     res.status(200).json(allUsers);
@@ -9,6 +9,4 @@ const getUsersHandler = async (req, res) => {
   }
 };
 
-module.exports = {
-  getUsersHandler,
-};
+module.exports = userHandler;
