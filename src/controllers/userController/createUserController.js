@@ -132,7 +132,16 @@ const createUser = async (req) => {
     }
 }
 
-
+// const createUserController = async (req,res) =>{
+//     try {
+//         const result = await createUser(req)
+//         res.json(result)
+//     } catch (error) {
+//         console.log(error.message);
+//         res.status(400).json({error:error.message})
+//     }
+// }
+// module.exports = {createUserController}
 
 const createUserController = async (req,res) =>{
     try {
