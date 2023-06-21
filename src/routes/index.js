@@ -1,10 +1,12 @@
 const { Router } = require("express");
-const userRoutes = require("./userRoutes/userRoutes");
-const passwordRoutes = require("./recoveryPasswordRoutes/passwordRoutes.js");
+const userRoutes = require("./userRoutes/userRoutes.js");
+const forgotPasswordRoutes = require("./recoveryPasswordRoutes/forgotPasswordRoutes.js");
+const resetPasswordRoutes = require("./recoveryPasswordRoutes/resetPasswordRoutes.js");
 
 const router = Router();
 
-//router.use("/user", userRoutes);
-router.use("/recovery", passwordRoutes)
+router.use("/users", userRoutes);
+router.use("/forgotPassword", forgotPasswordRoutes)
+router.use("/resetPassword", resetPasswordRoutes)
 
 module.exports = router;

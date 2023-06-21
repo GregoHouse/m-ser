@@ -31,7 +31,7 @@ module.exports = (sequelize) => {
       },
 
       day_birth: {
-        type: DataTypes.DATE,
+        type: DataTypes.STRING,
         allowNull: false,
       },
 
@@ -41,7 +41,7 @@ module.exports = (sequelize) => {
       },
 
       phone: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: false,
       },
 

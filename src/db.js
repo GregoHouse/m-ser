@@ -1,6 +1,7 @@
 require("dotenv").config();
 const { Sequelize } = require("sequelize");
 const modelUser = require("./models/user.js")
+const modelRecoveryCode = require("./models/recoveryCode.js")
 
 const { DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME } = process.env;
 
@@ -13,6 +14,7 @@ const sequelize = new Sequelize(
 );
 
 modelUser(sequelize);
+modelRecoveryCode(sequelize);
 
 const { User } = sequelize.models;
 
