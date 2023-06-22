@@ -1,9 +1,10 @@
 const { Router } = require("express");
-//const { createUserController } = require("../../controllers/userController");//
 const userHandler = require("../../handlers/userHandler.js");
+const { createUserHandler } = require("../../handlers/createUserHandler");
 const userRoutes = Router();
 
-// userRoutes.post("/", createUserController);
+userRoutes.post("/", createUserHandler);
 userRoutes.get("/", userHandler);
+
 
 module.exports = userRoutes;
