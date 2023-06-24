@@ -1,4 +1,5 @@
 const {RecoveryCode, User} = require('../../db');
+const bcrypt = require('bcrypt');
 
 const resetPassword = async (email, code, newPassword) => {
     const validateCode = await RecoveryCode.findOne({
@@ -9,8 +10,9 @@ const resetPassword = async (email, code, newPassword) => {
     });
 
     if (validateCode) {
+        let passwordcrypt = await bcrypt.hash(newPassword, 8);
         await User.update({
-            password: newPassword
+            password: passwordcrypt
         }, {
             where:
             {

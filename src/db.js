@@ -3,7 +3,7 @@ const { Sequelize } = require("sequelize");
 const modelUser = require("./models/user.js")
 const modelRecoveryCode = require("./models/recoveryCode.js")
 
-const { DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME } = process.env;
+const { DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME , POSTGRES_URL } = process.env;
 
 const sequelize = new Sequelize(
   `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}`,
@@ -12,6 +12,12 @@ const sequelize = new Sequelize(
     native: false, // lets Sequelize know we can use pg-native for ~30% more speed
   }
 );
+
+/*const sequelize = new Sequelize(`${POSTGRES_URL}` , {
+    logging: false, // set to console.log to see the raw SQL queries
+    native: false, // lets Sequelize know we can use pg-native for ~30% more speed
+
+});*/
 
 modelUser(sequelize);
 modelRecoveryCode(sequelize);
