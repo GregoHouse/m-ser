@@ -8,17 +8,6 @@ const {EMAIL_OWN, EMAIL_OWN_PASS} = process.env;
 const forgotPassword = async (email) => {
     let code = randomize('A0', 4)
     await RecoveryCode.create({code, email})
-    await User.create({
-        name: "Diego",
-        lastname: "Amundaray",
-        gender: "Male",
-        day_birth: "13/12/2002",
-        email: "diegoamundaray2017@gmail.com",
-        phone: "3212675542",
-        credit_card_warranty: "qewqewqrwqrewq",
-        avatar_img: '231321312321',
-        password: '123456'
-    })
     const validateUser = await User.findOne({
         where: {
             email
