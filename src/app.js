@@ -1,11 +1,19 @@
 const express = require("express");
-require("./database/db.js");
+const routes = require("./routes/index");
+const morgan = require("morgan");
+const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
+require("./db.js");
 
 const server = express();
 server.name = "API";
 
+server.use(morgan("dev"));
 server.use(express.json());
-server.use((req, res, next) => {
+server.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
+server.use(bodyParser.json({ limit: '50mb' }));
+server.use(cookieParser());server.use((req, res, next) => {
+  res.setHeader('Content-Type', 'application/json', 'Authorization');
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Credentials", "true");
   res.header(
@@ -16,6 +24,8 @@ server.use((req, res, next) => {
   next();
 });
 
+server.use("/", routes);
+
 server.use((err, req, res, next) => {
   const status = err.status || 500;
   const message = err.message || err;
@@ -24,3 +34,5 @@ server.use((err, req, res, next) => {
 });
 
 module.exports = server;
+
+
