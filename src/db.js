@@ -5,14 +5,14 @@ const modelRecoveryCode = require("./models/recoveryCode.js");
 const modelAdvertisingSystem = require("./models/advertising_system.js");
 const modelAdvertisingEvent = require("./models/advertising_event.js");
 const modelSport = require("./models/sport.js");
-//const modelSportUser = require("./models/sport_user.js");
+const modelSportUser = require("./models/sport_user.js");
 const modelMatchResult = require("./models/match_result.js");
 const modelMatchType = require("./models/match_type.js");
 const modelRatingUser = require("./models/rating_user.js");
 const modelReservationType = require("./models/reservation_type.js");
 const modelGuestReservation = require("./models/guest_reservation.js");
 const modelReservation = require("./models/reservation.js");
-//const modelShiftScheduleCourt = require("./models/shift_schedule_court.js");
+const modelShiftScheduleCourt = require("./models/shift_schedule_court.js");
 const modelClubProfile = require("./models/club_profile.js");
 const modelShiftSchedule = require("./models/shift_schedule.js");
 const modelPaymentStatus = require("./models/payment_status.js");
@@ -23,10 +23,12 @@ const modelPayment = require("./models/payment.js");
 const modelLocation = require("./models/location.js");
 const modelClub = require("./models/club.js");
 const modelPaymentType = require("./models/payment_type.js");
-const modelPointEvent = require("./models/point_event.js");
+const modelProfile = require("./models/profile.js");
 const modelPointSystem = require("./models/point_system.js");
+const modelPointEvent = require("./models/point_event.js");
 
-const { DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME , POSTGRES_URL } = process.env;
+const { DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME, POSTGRES_URL } =
+  process.env;
 
 const sequelize = new Sequelize(
   `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}`,
@@ -47,14 +49,14 @@ modelRecoveryCode(sequelize);
 modelAdvertisingSystem(sequelize);
 modelAdvertisingEvent(sequelize);
 modelSport(sequelize);
-//modelSportUser(sequelize);
+modelSportUser(sequelize);
 modelMatchResult(sequelize);
 modelMatchType(sequelize);
 modelRatingUser(sequelize);
 modelReservationType(sequelize);
 modelGuestReservation(sequelize);
 modelReservation(sequelize);
-//modelShiftScheduleCourt(sequelize);
+modelShiftScheduleCourt(sequelize);
 modelClubProfile(sequelize);
 modelShiftSchedule(sequelize);
 modelPaymentStatus(sequelize);
@@ -65,18 +67,31 @@ modelPayment(sequelize);
 modelLocation(sequelize);
 modelClub(sequelize);
 modelPaymentType(sequelize);
+modelProfile(sequelize);
 modelPointEvent(sequelize);
 modelPointSystem(sequelize);
 
-const { Advertising_system, Advertising_event, Club, Court, Guest_reservation, Location, Match_result, Match_type, Payment, Payment_status, Payment_type, Point_event, Point_system, Rating_user, Reservation, Reservation_type, Score_match, Shift_schedule, Sport, Team_match, User } = sequelize.models;
+const { Advertising_system, Advertising_event, Club, Court, Guest_reservation, Location, Match_result, Match_type, Payment, Payment_status, Payment_type, Point_event, Point_system, Rating_user, Reservation, Reservation_type, Score_match, Shift_schedule, Sport, Team_match, User , Profile} = sequelize.models;
 
-//relacion entre User y Location
-Location.hasMany(User);
+//relacion entre User y Locationn
 User.belongsTo(Location);
+Location.hasMany(User);
+
+//relacion entre User y Profile
+User.hasMany(Profile);
+Profile.belongsTo(User);
+
+//relacion entre User y Profile
+User.hasMany(Profile);
+Profile.belongsTo(User);
 
 //relacion entre user y point_event
 User.hasMany(Point_event);
 Point_event.belongsTo(User);
+
+//relacion entre user y point_event
+Profile.hasMany(Rating_user);
+Rating_user.belongsTo(Profile);
 
 //relacion point_system y point_event
 Point_system.hasMany(Point_event);
@@ -93,6 +108,10 @@ Advertising_event.belongsTo(User);
 //relacion entre Sport y User creando la tabla Sport_user
 User.belongsToMany(Sport, { through: "Sport_user" });
 Sport.belongsToMany(User, { through: "Sport_user" });
+
+//relacion entre Sport y Profile////;
+Sport.hasMany(Profile);
+Profile.belongsTo(Sport);
 
 //relacion rating_user y user
 User.hasMany(Rating_user);
@@ -150,9 +169,12 @@ Payment.belongsTo(Payment_type);
 Club.hasMany(Court);
 Court.belongsTo(Club);
 
+Club.belongsToMany(Profile, { through: "Club_profile" });
+Profile.belongsToMany(Club, { through: "Club_profile" })
+
 //relacion entre location y Court
-Location.hasMany(Court);
-Court.belongsTo(Location);
+/*Location.hasMany(Court);
+Court.belongsTo(Location);*/
 
 //relacion entre Score_match y team_match
 Score_match.hasOne(Team_match);
