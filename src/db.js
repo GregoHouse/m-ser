@@ -71,15 +71,27 @@ modelProfile(sequelize);
 modelPointEvent(sequelize);
 modelPointSystem(sequelize);
 
-const { Advertising_system, Advertising_event, Club, Court, Guest_reservation, Location, Match_result, Match_type, Payment, Payment_status, Payment_type, Point_event, Point_system, Rating_user, Reservation, Reservation_type, Score_match, Shift_schedule, Sport, Team_match, User } = sequelize.models;
+const { Advertising_system, Advertising_event, Club, Court, Guest_reservation, Location, Match_result, Match_type, Payment, Payment_status, Payment_type, Point_event, Point_system, Rating_user, Reservation, Reservation_type, Score_match, Shift_schedule, Sport, Team_match, User , Profile} = sequelize.models;
 
 //relacion entre User y Locationn
-Location.hasMany(User);
 User.belongsTo(Location);
+Location.hasMany(User);
+
+//relacion entre User y Profile
+User.hasMany(Profile);
+Profile.belongsTo(User);
+
+//relacion entre User y Profile
+User.hasMany(Profile);
+Profile.belongsTo(User);
 
 //relacion entre user y point_event
 User.hasMany(Point_event);
 Point_event.belongsTo(User);
+
+//relacion entre user y point_event
+Profile.hasMany(Rating_user);
+Rating_user.belongsTo(Profile);
 
 //relacion point_system y point_event
 Point_system.hasMany(Point_event);
@@ -96,6 +108,10 @@ Advertising_event.belongsTo(User);
 //relacion entre Sport y User creando la tabla Sport_user
 User.belongsToMany(Sport, { through: "Sport_user" });
 Sport.belongsToMany(User, { through: "Sport_user" });
+
+//relacion entre Sport y Profile////;
+Sport.hasMany(Profile);
+Profile.belongsTo(Sport);
 
 //relacion rating_user y user
 User.hasMany(Rating_user);
@@ -153,9 +169,12 @@ Payment.belongsTo(Payment_type);
 Club.hasMany(Court);
 Court.belongsTo(Club);
 
+Club.belongsToMany(Profile, { through: "Club_profile" });
+Profile.belongsToMany(Club, { through: "Club_profile" })
+
 //relacion entre location y Court
-Location.hasMany(Court);
-Court.belongsTo(Location);
+/*Location.hasMany(Court);
+Court.belongsTo(Location);*/
 
 //relacion entre Score_match y team_match
 Score_match.hasOne(Team_match);
