@@ -23,8 +23,10 @@ const modelPayment = require("./models/payment.js");
 const modelLocation = require("./models/location.js");
 const modelClub = require("./models/club.js");
 const modelPaymentType = require("./models/payment_type.js");
+const modelProfile = require("./models/profile.js");
 
-const { DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME , POSTGRES_URL } = process.env;
+const { DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME, POSTGRES_URL } =
+  process.env;
 
 const sequelize = new Sequelize(
   `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}`,
@@ -63,6 +65,7 @@ modelPayment(sequelize);
 modelLocation(sequelize);
 modelClub(sequelize);
 modelPaymentType(sequelize);
+modelProfile(sequelize);
 
 const { User } = sequelize.models;
 
