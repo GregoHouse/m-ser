@@ -5,14 +5,14 @@ const modelRecoveryCode = require("./models/recoveryCode.js");
 const modelAdvertisingSystem = require("./models/advertising_system.js");
 const modelAdvertisingEvent = require("./models/advertising_event.js");
 const modelSport = require("./models/sport.js");
-//const modelSportUser = require("./models/sport_user.js");
+const modelSportUser = require("./models/sport_user.js");
 const modelMatchResult = require("./models/match_result.js");
 const modelMatchType = require("./models/match_type.js");
 const modelRatingUser = require("./models/rating_user.js");
 const modelReservationType = require("./models/reservation_type.js");
 const modelGuestReservation = require("./models/guest_reservation.js");
 const modelReservation = require("./models/reservation.js");
-//const modelShiftScheduleCourt = require("./models/shift_schedule_court.js");
+const modelShiftScheduleCourt = require("./models/shift_schedule_court.js");
 const modelClubProfile = require("./models/club_profile.js");
 const modelShiftSchedule = require("./models/shift_schedule.js");
 const modelPaymentStatus = require("./models/payment_status.js");
@@ -23,10 +23,10 @@ const modelPayment = require("./models/payment.js");
 const modelLocation = require("./models/location.js");
 const modelClub = require("./models/club.js");
 const modelPaymentType = require("./models/payment_type.js");
-const modelPointEvent = require("./models/point_event.js");
-const modelPointSystem = require("./models/point_system.js");
+const modelProfile = require("./models/profile.js");
 
-const { DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME , POSTGRES_URL } = process.env;
+const { DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME, POSTGRES_URL } =
+  process.env;
 
 const sequelize = new Sequelize(
   `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}`,
@@ -47,14 +47,14 @@ modelRecoveryCode(sequelize);
 modelAdvertisingSystem(sequelize);
 modelAdvertisingEvent(sequelize);
 modelSport(sequelize);
-//modelSportUser(sequelize);
+modelSportUser(sequelize);
 modelMatchResult(sequelize);
 modelMatchType(sequelize);
 modelRatingUser(sequelize);
 modelReservationType(sequelize);
 modelGuestReservation(sequelize);
 modelReservation(sequelize);
-//modelShiftScheduleCourt(sequelize);
+modelShiftScheduleCourt(sequelize);
 modelClubProfile(sequelize);
 modelShiftSchedule(sequelize);
 modelPaymentStatus(sequelize);
@@ -65,8 +65,8 @@ modelPayment(sequelize);
 modelLocation(sequelize);
 modelClub(sequelize);
 modelPaymentType(sequelize);
-modelPointEvent(sequelize);
-modelPointSystem(sequelize);
+modelProfile(sequelize);
+
 
 const { Advertising_system, Advertising_event, Club, Court, Guest_reservation, Location, Match_result, Match_type, Payment, Payment_status, Payment_type, Point_event, Point_system, Rating_user, Reservation, Reservation_type, Score_match, Shift_schedule, Sport, Team_match, User } = sequelize.models;
 
