@@ -24,6 +24,8 @@ const modelLocation = require("./models/location.js");
 const modelClub = require("./models/club.js");
 const modelPaymentType = require("./models/payment_type.js");
 const modelProfile = require("./models/profile.js");
+const modelPointSystem = require("./models/point_system.js");
+const modelPointEvent = require("./models/point_event.js");
 
 const { DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME, POSTGRES_URL } =
   process.env;
@@ -66,6 +68,8 @@ modelLocation(sequelize);
 modelClub(sequelize);
 modelPaymentType(sequelize);
 modelProfile(sequelize);
+modelPointEvent(sequelize);
+modelPointSystem(sequelize);
 
 const {
   Advertising_system,
