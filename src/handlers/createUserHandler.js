@@ -1,5 +1,6 @@
 const {createUserController} = require("../controllers/userController/createUserController")
-
+const { catchedAsync } = require("../utils");
+ 
 const createUserHandler = async (req,res) =>{
     try {
         const result = await createUserController(req)
@@ -9,4 +10,6 @@ const createUserHandler = async (req,res) =>{
         res.status(400).json({error:error.message})
     }
 }
-module.exports = {createUserHandler}
+module.exports = {
+    createUserHandler: catchedAsync(createUserHandler)
+};

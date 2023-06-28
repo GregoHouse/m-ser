@@ -74,8 +74,12 @@ modelPointSystem(sequelize);
 const { Advertising_system, Advertising_event, Club, Court, Guest_reservation, Location, Match_result, Match_type, Payment, Payment_status, Payment_type, Point_event, Point_system, Rating_user, Reservation, Reservation_type, Score_match, Shift_schedule, Sport, Team_match, User , Profile} = sequelize.models;
 
 //relacion entre User y Locationn
-User.belongsTo(Location);
-Location.hasMany(User);
+Location.hasMany(User, {
+  foreignKey: 'id_location'
+});
+User.belongsTo(Location, {
+  foreignKey: 'id_location'
+});
 
 //relacion entre User y Profile
 User.hasMany(Profile);
