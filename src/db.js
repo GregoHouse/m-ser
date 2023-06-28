@@ -71,7 +71,29 @@ modelProfile(sequelize);
 modelPointEvent(sequelize);
 modelPointSystem(sequelize);
 
-const { Advertising_system, Advertising_event, Club, Court, Guest_reservation, Location, Match_result, Match_type, Payment, Payment_status, Payment_type, Point_event, Point_system, Rating_user, Reservation, Reservation_type, Score_match, Shift_schedule, Sport, Team_match, User } = sequelize.models;
+const {
+  Advertising_system,
+  Advertising_event,
+  Club,
+  Court,
+  Guest_reservation,
+  Location,
+  Match_result,
+  Match_type,
+  Payment,
+  Payment_status,
+  Payment_type,
+  Point_event,
+  Point_system,
+  Rating_user,
+  Reservation,
+  Reservation_type,
+  Score_match,
+  Shift_schedule,
+  Sport,
+  Team_match,
+  User,
+} = sequelize.models;
 
 //relacion entre User y Locationn
 Location.hasMany(User);
@@ -139,7 +161,7 @@ Guest_reservation.belongsTo(Team_match);
 
 //relacion shift_schedule y court
 Shift_schedule.belongsToMany(Court, { through: "Shift_schedule_court" });
-Court.belongsToMany(Shift_schedule, { through: "Shift_schedule_court" })
+Court.belongsToMany(Shift_schedule, { through: "Shift_schedule_court" });
 
 //relacion entre payment y payment_status
 Payment_status.hasMany(Payment);
