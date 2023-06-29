@@ -6,6 +6,7 @@ module.exports = (sequelize) => {
     {
       id_team_match: {
         type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
       },
       name: {
