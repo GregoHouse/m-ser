@@ -5,8 +5,9 @@ module.exports = (sequelize) => {
     "Location",
     {
       id_location: {
-        type: DataTypes.UUID,
+        type: DataTypes.INTEGER,
         primaryKey: true,
+        autoIncrement: true,
       },
       name: {
         type: DataTypes.STRING

@@ -1,4 +1,5 @@
 const loginUserController = require('../controllers/userController/loginUserController.js');
+const { catchedAsync } = require("../utils");
 
 const loginUserHandler = async (req, res) => {
     try {
@@ -15,4 +16,4 @@ const loginUserHandler = async (req, res) => {
     }
 };
 
-module.exports = loginUserHandler;
+module.exports = catchedAsync(loginUserHandler);

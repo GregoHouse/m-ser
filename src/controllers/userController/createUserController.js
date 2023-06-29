@@ -1,5 +1,6 @@
-const { User } = require("../../db");
+const { User, Location } = require("../../db");
 const bcrypt = require("bcrypt")
+const ClientError = require("../../utils/errors");
 // const { cloudiconfig, loadPhoto } = require("../../../utils/cloudinary")
 //! const getUserinfo = require("./")
 // const { PASSWORD_EMAIL,EMAIL_ADDRES} = process.env;//! para cuando se configure el correo
@@ -10,41 +11,20 @@ const bcrypt = require("bcrypt")
 const createUserController = async (req) => {
 
     let {
-        name, lastname, gender, day_birth, email, phone, credit_card_warranty, password} = req.body;
-    if (!name || !lastname || !email) //! determinar cuales son los campos obligatorios para el registro
-        return { error: "Debe llenar todos los campos" };
-      console.log(User)
+        name, lastname, gender, day_birth, email, location, phone, credit_card_warranty, password} = req.body;
+    
     //?el name se agrega con mayuscula
     const Nombre = name.toUpperCase();
-    //? validacion de correo electronico
-    const valueEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!valueEmail.test(email)) {
-        return { error: "el correo no es correcto" }
-    }
-    /**
-    *?  validacion password del password
-    *? - Minimo 8 caracteres
-    *? - Maximo 15
-    *? - Al menos una letra mayúscula
-    *? - Al menos una letra minucula
-    *? - Al menos un numero
-    *? - No espacios en blanco
-    *? - Al menos 1 caracter especial  */
-    const valeuPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,15}/;
-    if (!valeuPassword.test(password)) {
-        return {
-            error: "Contraseña incorrecta"}
-    }
 
     //? se busca el mail en la base de datos
     const searchEmail = await User.findOne({
         where: { email: email }
-    })
+    });
+
     //? si existe el correo devuelve el error
     if (searchEmail) {
-        return { error: "El Correo ya esta en uso" }
+        throw new ClientError("El Correo ya esta en uso", 401);
     }
-
     // let saveProfile = {},
     //  saveCover = {}
     // if (req.files) {
@@ -75,9 +55,19 @@ const createUserController = async (req) => {
             // coverPhoto: saveCover.secure_url,
             password:passwordcrypt
         }
-        await User.create(newUser)
-        //! este return es temporal solo para visualizar una respuesta
-        return newUser
+
+        const newLocation = await Location.create(location);
+        const userRelacion = await User.create(newUser);
+        
+        await newLocation.addUser(userRelacion);
+        
+        const userLocation =  await User.findOne({
+            where: { email },
+            include: {
+                model: Location
+            }
+        })
+        return userLocation;
 
         //! queda un bosquejo del envio de correo automatico con nodemailer (por confirmar)
         // const config = {
