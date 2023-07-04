@@ -8,7 +8,8 @@ const router = Router();
 
 router.use("/users", userRoutes);
 router.use("/login", loginUserRoutes);
-router.use("/forgotPassword", forgotPasswordRoutes)
-router.use("/resetPassword", resetPasswordRoutes)
+router.use("/forgotPassword", forgotPasswordRoutes);
+router.use("/resetPassword", resetPasswordRoutes);
+router.use("/reservate", resetPasswordRoutes);
 
 module.exports = router;
