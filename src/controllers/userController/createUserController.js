@@ -14,7 +14,8 @@ const createUserController = async (req) => {
         name, lastname, gender, day_birth, email, location, phone, credit_card_warranty, password} = req.body;
     
     //?el name se agrega con mayuscula
-    const Nombre = name.toUpperCase();
+    name = name.toUpperCase();
+    lastname = lastname.toUpperCase();
 
     //? se busca el mail en la base de datos
     const searchEmail = await User.findOne({
@@ -45,7 +46,7 @@ const createUserController = async (req) => {
     try {
       name, lastname, gender, day_birth, email, phone, credit_card_warranty, password
         let newUser = {
-            name: Nombre,
+            name,
             lastname,
             gender,
             day_birth,
@@ -56,10 +57,18 @@ const createUserController = async (req) => {
             password:passwordcrypt
         }
 
-        const newLocation = await Location.create(location);
-        const userRelacion = await User.create(newUser);
-        
-        await newLocation.addUser(userRelacion);
+        const validateLocation = await Location.findOne({
+            where: location
+        });
+
+        if(validateLocation){
+            const relacionUser = await User.create(newUser);
+            await validateLocation.addUser(relacionUser);
+        } else {
+            const newLocation = await Location.create(location);
+            userRelacion = await User.create(newUser);
+            await newLocation.addUser(userRelacion);
+        }
         
         const userLocation =  await User.findOne({
             where: { email },

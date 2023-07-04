@@ -6,6 +6,7 @@ module.exports = (sequelize) => {
     {
       id_payment: {
         type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
       },
       name: {
