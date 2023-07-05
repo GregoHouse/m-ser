@@ -6,6 +6,7 @@ module.exports = (sequelize) => {
     {
       id_reservation: {
         type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
       },
       date_time_start: {

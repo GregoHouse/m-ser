@@ -1,1 +1,3 @@
-console.log("object");
+module.exports = {
+    createUserValidation: require('./createUserValidation.js')
+}

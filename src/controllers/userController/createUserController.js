@@ -1,5 +1,6 @@
-const { User } = require("../../db");
+const { User, Location } = require("../../db");
 const bcrypt = require("bcrypt");
+const ClientError = require("../../utils/errors");
 // const { cloudiconfig, loadPhoto } = require("../../../utils/cloudinary")
 //! const getUserinfo = require("./")
 // const { PASSWORD_EMAIL,EMAIL_ADDRES} = process.env;//! para cuando se configure el correo
@@ -43,6 +44,38 @@ const createUserController = async (req) => {
       error: "Contraseña incorrecta",
     };
   }
+
+  let {
+    name,
+    lastname,
+    gender,
+    day_birth,
+    email,
+    location,
+    phone,
+    credit_card_warranty,
+    password,
+  } = req.body;
+
+  //?el name se agrega con mayuscula
+  name = name.toUpperCase();
+  lastname = lastname.toUpperCase();
+
+  let {
+    name,
+    lastname,
+    gender,
+    day_birth,
+    email,
+    location,
+    phone,
+    credit_card_warranty,
+    password,
+  } = req.body;
+
+  //?el name se agrega con mayuscula
+  name = name.toUpperCase();
+  lastname = lastname.toUpperCase();
 
   //? se busca el mail en la base de datos
   const searchEmail = await User.findOne({

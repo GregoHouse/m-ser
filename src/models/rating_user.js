@@ -6,6 +6,7 @@ module.exports = (sequelize) => {
     {
       id_rating: {
         type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
       },
       category_lvl: {

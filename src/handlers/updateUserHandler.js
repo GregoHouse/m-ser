@@ -1,5 +1,6 @@
 const {updateUserController} = require("../controllers/userController/updateUserController");
-  
+const { catchedAsync } = require("../utils");
+
   const updateUserHandler = async (req, res) => {
     
     try {
@@ -11,4 +12,4 @@ const {updateUserController} = require("../controllers/userController/updateUser
     }
   };
   
-  module.exports = { updateUserHandler };
+  module.exports = { updateUserHandler: catchedAsync(updateUserHandler) };

@@ -1,7 +1,10 @@
-const {User} = require("../../db");
+const {User, Location} = require("../../db");
 
 const getUsersController = async () => {
-  const allUsers = await User.findAll();
+  const allUsers = await User.findAll({
+    include: {
+      model: Location
+    }});
   return allUsers;
 };
 
