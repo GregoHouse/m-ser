@@ -6,7 +6,8 @@ module.exports = (sequelize) => {
     {
       id_shift_schedule: {
         type: DataTypes.UUID,
-        primaryKey: true
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
       },
       name: {
         type: DataTypes.STRING

@@ -6,6 +6,7 @@ module.exports = (sequelize) => {
     {
       id_sport: {
         type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
       },
       name: {

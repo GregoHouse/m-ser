@@ -5,15 +5,12 @@ const modelRecoveryCode = require("./models/recoveryCode.js");
 const modelAdvertisingSystem = require("./models/advertising_system.js");
 const modelAdvertisingEvent = require("./models/advertising_event.js");
 const modelSport = require("./models/sport.js");
-const modelSportUser = require("./models/sport_user.js");
 const modelMatchResult = require("./models/match_result.js");
 const modelMatchType = require("./models/match_type.js");
 const modelRatingUser = require("./models/rating_user.js");
 const modelReservationType = require("./models/reservation_type.js");
 const modelGuestReservation = require("./models/guest_reservation.js");
 const modelReservation = require("./models/reservation.js");
-const modelShiftScheduleCourt = require("./models/shift_schedule_court.js");
-const modelClubProfile = require("./models/club_profile.js");
 const modelShiftSchedule = require("./models/shift_schedule.js");
 const modelPaymentStatus = require("./models/payment_status.js");
 const modelTeamMatch = require("./models/team_match.js");
@@ -49,15 +46,12 @@ modelRecoveryCode(sequelize);
 modelAdvertisingSystem(sequelize);
 modelAdvertisingEvent(sequelize);
 modelSport(sequelize);
-modelSportUser(sequelize);
 modelMatchResult(sequelize);
 modelMatchType(sequelize);
 modelRatingUser(sequelize);
 modelReservationType(sequelize);
 modelGuestReservation(sequelize);
 modelReservation(sequelize);
-modelShiftScheduleCourt(sequelize);
-modelClubProfile(sequelize);
 modelShiftSchedule(sequelize);
 modelPaymentStatus(sequelize);
 modelTeamMatch(sequelize);
@@ -71,6 +65,7 @@ modelProfile(sequelize);
 modelPointEvent(sequelize);
 modelPointSystem(sequelize);
 
+<<<<<<< HEAD
 const {
   Advertising_system,
   Advertising_event,
@@ -94,98 +89,239 @@ const {
   Team_match,
   User,
 } = sequelize.models;
+=======
+//sequelize.sync({force: true});
+
+const { Advertising_system, Advertising_event, Club, Court, Guest_reservation, Location, Match_result, Match_type, Payment, Payment_status, Payment_type, Point_event, Point_system, Rating_user, Reservation, Reservation_type, Score_match, Shift_schedule, Sport, Team_match, User , Profile} = sequelize.models;
+>>>>>>> c3d0d295c15748f8b6dbe4c60771544d2d4445da
 
 //relacion entre User y Locationn
-Location.hasMany(User);
-User.belongsTo(Location);
+Location.hasMany(User, {
+  foreignKey: 'id_location'
+});
+User.belongsTo(Location, {
+  foreignKey: 'id_location'
+});
+
+//relacion entre User y Profile
+User.hasMany(Profile, {
+  foreignKey: 'id_user'
+});
+Profile.belongsTo(User, {
+  foreignKey: 'id_user'
+});
 
 //relacion entre user y point_event
-User.hasMany(Point_event);
-Point_event.belongsTo(User);
+User.hasMany(Point_event, {
+  foreignKey: 'id_user'
+});
+Point_event.belongsTo(User, {
+  foreignKey: 'id_user'
+});
+
+//relacion entre profile y rating_user
+Profile.hasMany(Rating_user, {
+  foreignKey: 'id_profile'
+});
+Rating_user.belongsTo(Profile, {
+  foreignKey: 'id_profile'
+});
 
 //relacion point_system y point_event
-Point_system.hasMany(Point_event);
-Point_event.belongsTo(Point_system);
+Point_system.hasMany(Point_event, {
+  foreignKey: 'id_point_system',
+});
+Point_event.belongsTo(Point_system, {
+  foreignKey: 'id_point_system',
+});
 
 //relacion entre Advertising_systen y advertising_event
-Advertising_system.hasMany(Advertising_event);
-Advertising_event.belongsTo(Advertising_system);
+Advertising_system.hasMany(Advertising_event, {
+  foreignKey: 'id_advertising_system',
+});
+Advertising_event.belongsTo(Advertising_system, {
+  foreignKey: 'id_advertising_system',
+});
 
 //relacion entre Advertising_event y User
-User.hasMany(Advertising_event);
-Advertising_event.belongsTo(User);
+User.hasMany(Advertising_event, {
+  foreignKey: 'id_user',
+});
+Advertising_event.belongsTo(User, {
+  foreignKey: 'id_user',
+});
 
 //relacion entre Sport y User creando la tabla Sport_user
-User.belongsToMany(Sport, { through: "Sport_user" });
-Sport.belongsToMany(User, { through: "Sport_user" });
+User.belongsToMany(Sport, { 
+  through: "Sport_users",
+  foreignKey: "id_user",
+  otherKey: "id_sport"
+ });
+Sport.belongsToMany(User, {
+  through: "Sport_users",
+  foreignKey: "id_sport",
+  otherKey: "id_user"
+});
+
+//relacion entre Sport y Profile////;
+Sport.hasMany(Profile, {
+  foreignKey: "id_sport"
+});
+Profile.belongsTo(Sport, {
+  foreignKey: "id_sport"
+});
 
 //relacion rating_user y user
-User.hasMany(Rating_user);
-Rating_user.belongsTo(User);
+User.hasMany(Rating_user, {
+  foreignKey: "id_user"
+});
+Rating_user.belongsTo(User, {
+  foreignKey: "id_user"
+});
 
 //relacion reservation y rating_user
-Reservation.hasMany(Rating_user);
-Rating_user.belongsTo(Reservation);
+Reservation.hasMany(Rating_user, {
+  foreignKey: "id_reservation"
+});
+Rating_user.belongsTo(Reservation, {
+  foreignKey: "id_reservation"
+});
 
 //relacion reservation y reservation_type
-Reservation_type.hasMany(Reservation);
-Reservation.belongsTo(Reservation_type);
+Reservation_type.hasMany(Reservation, {
+  foreignKey: "id_reservation_type"
+});
+Reservation.belongsTo(Reservation_type, {
+  foreignKey: "id_reservation_type"
+});
 
 //relacion entre reservation y user
-User.hasMany(Reservation);
-Reservation.belongsTo(User);
+User.hasMany(Reservation, {
+  foreignKey: "id_user"
+});
+Reservation.belongsTo(User, {
+  foreignKey: "id_user"
+});
 
 //relacion entre reservation y court
-Court.hasMany(Reservation);
-Reservation.belongsTo(Court);
+Court.hasMany(Reservation, {
+  foreignKey: "id_court"
+});
+Reservation.belongsTo(Court, {
+  foreignKey: "id_court"
+});
 
 //relacion entre reservation y payment
-Payment.hasMany(Reservation);
-Reservation.belongsTo(Payment);
+Payment.hasMany(Reservation, {
+  foreignKey: "id_payment"
+});
+Reservation.belongsTo(Payment, {
+  foreignKey: "id_payment"
+});
 
 //relacion entre match_type y reservation
-Match_type.hasMany(Reservation);
-Reservation.belongsTo(Match_type);
+Match_type.hasMany(Reservation, {
+  foreignKey: "id_match_type"
+});
+Reservation.belongsTo(Match_type, {
+  foreignKey: "id_match_type"
+});
 
 //relacion entre Reservation y guest_reservation
-Reservation.hasMany(Guest_reservation);
-Guest_reservation.belongsTo(Reservation);
+Reservation.hasMany(Guest_reservation, {
+  foreignKey: "id_reservation"
+});
+Guest_reservation.belongsTo(Reservation, {
+  foreignKey: "id_reservation"
+});
 
 //relacion entre Guest_reservation y user
-User.hasMany(Guest_reservation);
-Guest_reservation.belongsTo(User);
+User.hasMany(Guest_reservation, {
+  foreignKey: "id_user"
+});
+Guest_reservation.belongsTo(User, {
+  foreignKey: "id_user"
+});
 
 //relacion entre Guest_reservation y team_match
-Team_match.hasMany(Guest_reservation);
-Guest_reservation.belongsTo(Team_match);
+Team_match.hasMany(Guest_reservation, {
+  foreignKey: "id_team_match"
+});
+Guest_reservation.belongsTo(Team_match, {
+  foreignKey: "id_team_match"
+});
 
 //relacion shift_schedule y court
+<<<<<<< HEAD
 Shift_schedule.belongsToMany(Court, { through: "Shift_schedule_court" });
 Court.belongsToMany(Shift_schedule, { through: "Shift_schedule_court" });
+=======
+Shift_schedule.belongsToMany(Court, { 
+  through: "Shift_schedule_courts",
+  foreignKey: 'id_shift_schedule',
+  otherKey: 'id_court'
+});
+Court.belongsToMany(Shift_schedule, { 
+  through: "Shift_schedule_courts",
+  foreignKey: 'id_court',
+  otherKey: "id_shift_schedule"
+})
+>>>>>>> c3d0d295c15748f8b6dbe4c60771544d2d4445da
 
 //relacion entre payment y payment_status
-Payment_status.hasMany(Payment);
-Payment.belongsTo(Payment_status);
+Payment_status.hasMany(Payment, {
+  foreignKey: "id_payment_status"
+});
+Payment.belongsTo(Payment_status, {
+  foreignKey: "id_payment_status"
+});
 
 //relacion entre payment y payment_type
-Payment_type.hasMany(Payment);
-Payment.belongsTo(Payment_type);
+Payment_type.hasMany(Payment, {
+  foreignKey: "id_payment_type"
+});
+Payment.belongsTo(Payment_type, {
+  foreignKey: "id_payment_type"
+});
 
 //relacion entre Court y club
-Club.hasMany(Court);
-Court.belongsTo(Club);
+Club.hasMany(Court, {
+  foreignKey: "id_club",
+});
+Court.belongsTo(Club, {
+  foreignKey: "id_club"
+});
+
+Club.belongsToMany(Profile, { 
+  through: "Club_profiles",
+  foreignKey: "id_club",
+  otherKey: "id_profile" 
+});
+Profile.belongsToMany(Club, {
+  through: "Club_profiles",
+  foreignKey: "id_profile",
+  otherKey: "id_club"
+})
 
 //relacion entre location y Court
-Location.hasMany(Court);
-Court.belongsTo(Location);
+/*Location.hasMany(Court);
+Court.belongsTo(Location);*/
 
 //relacion entre Score_match y team_match
-Score_match.hasOne(Team_match);
-Team_match.belongsTo(Score_match);
+Score_match.hasOne(Team_match, {
+  foreignKey: "id_score_match" 
+});
+Team_match.belongsTo(Score_match, {
+    foreignKey: "id_score_match"
+});
 
 //relacion entre match_result y team_match
-Match_result.hasMany(Team_match);
-Team_match.belongsTo(Match_result);
+Match_result.hasMany(Team_match, {
+  foreignKey: "id_match_result"
+});
+Team_match.belongsTo(Match_result, {
+  foreignKey: "id_match_result"
+});
 
 module.exports = {
   sequelize,

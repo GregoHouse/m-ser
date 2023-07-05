@@ -5,16 +5,10 @@ module.exports = (sequelize) => {
     "User",
     {
       id_user: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
-        autoIncrement: true,
       },
-
-      // id_location: {
-      //   type: DataTypes.INTEGER,
-      //   primaryKey: true,
-      // },
-
       name: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -37,7 +31,7 @@ module.exports = (sequelize) => {
 
       email: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: false
       },
 
       phone: {
@@ -55,7 +49,7 @@ module.exports = (sequelize) => {
 
       password: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: false
       },
     },
 
