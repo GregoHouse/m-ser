@@ -5,9 +5,11 @@ const { conn } = require("./src/db.js");
 const { PORT } = process.env;
 const server = require("./src/app.js");
 
-conn.sync({ alter: true})
-    .then(() => {
-        server.listen(PORT, () => {
-        console.log(`server listening at ${PORT}`);
-        })
-    }).catch(error => console.log(error))
+conn
+  .sync({ force: true })
+  .then(() => {
+    server.listen(PORT, () => {
+      console.log(`server listening at ${PORT}`);
+    });
+  })
+  .catch((error) => console.log(error));
