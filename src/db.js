@@ -65,6 +65,8 @@ modelProfile(sequelize);
 modelPointEvent(sequelize);
 modelPointSystem(sequelize);
 
+//sequelize.sync({force: true});
+
 const {
   Advertising_system,
   Advertising_event,
@@ -87,6 +89,7 @@ const {
   Sport,
   Team_match,
   User,
+  Profile,
 } = sequelize.models;
 
 //relacion entre User y Locationn
@@ -254,7 +257,6 @@ Guest_reservation.belongsTo(Team_match, {
 });
 
 //relacion shift_schedule y court
-Court.belongsToMany(Shift_schedule, { through: "Shift_schedule_court" });
 Shift_schedule.belongsToMany(Court, {
   through: "Shift_schedule_courts",
   foreignKey: "id_shift_schedule",
@@ -300,9 +302,6 @@ Profile.belongsToMany(Club, {
   foreignKey: "id_profile",
   otherKey: "id_club",
 });
-
-Club.belongsToMany(Profile, { through: "Club_profile" });
-Profile.belongsToMany(Club, { through: "Club_profile" });
 
 //relacion entre location y Court
 /*Location.hasMany(Court);
