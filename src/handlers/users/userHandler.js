@@ -1,8 +1,8 @@
 const {
   getUsersController,
   getUserByIdController,
-} = require("../controllers/userController/getUsersController.js");
-const { catchedAsync } = require("../utils");
+} = require("../../controllers/userController/getUsersController.js");
+const { catchedAsync } = require("../../utils");
 
 const userHandler = async (req, res) => {
   try {

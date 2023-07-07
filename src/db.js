@@ -124,6 +124,10 @@ Rating_user.belongsTo(Profile, {
   foreignKey: "id_profile",
 });
 
+//relacion entre user y point_event
+Profile.hasMany(Rating_user);
+Rating_user.belongsTo(Profile);
+
 //relacion point_system y point_event
 Point_system.hasMany(Point_event, {
   foreignKey: "id_point_system",
@@ -167,6 +171,10 @@ Sport.hasMany(Profile, {
 Profile.belongsTo(Sport, {
   foreignKey: "id_sport",
 });
+
+//relacion entre Sport y Profile////;
+Sport.hasMany(Profile);
+Profile.belongsTo(Sport);
 
 //relacion rating_user y user
 User.hasMany(Rating_user, {

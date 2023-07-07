@@ -4,7 +4,7 @@ require("dotenv").config();
 const { conn } = require("./src/db.js");
 const { PORT } = process.env;
 const server = require("./src/app.js");
-
+//
 conn
   .sync({ force: true })
   .then(() => {
