@@ -1,7 +1,7 @@
 const {
   updateUserController,
-} = require("../controllers/userController/updateUserController");
-const { catchedAsync } = require("../utils");
+} = require("../../controllers/userController/updateUserController");
+const { catchedAsync } = require("../../utils");
 
 const updateUserHandler = async (req, res) => {
   try {
