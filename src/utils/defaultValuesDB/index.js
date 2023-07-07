@@ -1,3 +1,5 @@
+const { catchedAsync } = require("../");
+
 module.exports = {
-  createRolUser: require("./rol_user.js"),
+  createRolUser: catchedAsync(require("./rol_user.js")),
 };

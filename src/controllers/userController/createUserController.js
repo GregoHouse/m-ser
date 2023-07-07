@@ -7,89 +7,301 @@ const ClientError = require("../../utils/errors");
 // const nodemailer = require("nodemailer")
 
 const createUserController = async (req) => {
-  let {
-    name,
-    lastname,
-    gender,
-    day_birth,
-    email,
-    location,
-    phone,
-    credit_card_warranty,
-    password,
-  } = req.body;
-
-  //?el name se agrega con mayuscula
-  name = name.toUpperCase();
-  lastname = lastname.toUpperCase();
-
-  //? se busca el mail en la base de datos
-  const searchEmail = await User.findOne({
-    where: { email: email },
-  });
-
-  //? si existe el correo devuelve el error
-  if (searchEmail) {
-    throw new ClientError("El Correo ya esta en uso", 401);
-  }
-  // let saveProfile = {},
-  //  saveCover = {}
-  // if (req.files) {
-  //     const { profilePhoto, coverPhoto } = req.files
-  //     cloudiconfig()
-  //     if (profilePhoto) {
-
-  //         saveProfile = await loadPhoto(profilePhoto.tempFilePath,"Artist",nickName);
-  //     }
-
-  //     if (coverPhoto) {
-  //         // cloudiconfig()
-  //         saveCover = await loadPhoto(coverPhoto.tempFilePath,"Artist",nickName);
-  //     }
-  // }
-
-  passwordcrypt = await bcrypt.hash(password, 8);
   try {
-    name,
-      lastname,
-      gender,
-      day_birth,
-      email,
-      phone,
-      credit_card_warranty,
-      password;
-    let newUser = {
-      name,
-      lastname,
-      gender,
-      day_birth,
-      email,
-      phone,
-      credit_card_warranty,
-      // coverPhoto: saveCover.secure_url,
-      password: passwordcrypt,
-    };
+    let { rol } = req.body;
 
-    const validateLocation = await Location.findOne({
-      where: location,
-    });
+    rol = rol.toLowerCase();
 
-    if (validateLocation) {
-      const relacionUser = await User.create(newUser);
-      await validateLocation.addUser(relacionUser);
-    } else {
-      const newLocation = await Location.create(location);
-      userRelacion = await User.create(newUser);
-      await newLocation.addUser(userRelacion);
+    if (rol === "admin") {
+      let { firstname, lastname, email, password, location } = req.body;
+
+      //? se busca el mail en la base de datos
+      const searchEmail = await User.findOne({
+        where: { email: email },
+      });
+
+      //? si existe el correo devuelve el error
+      if (searchEmail) {
+        throw new ClientError("The mail is already in use", 401);
+      }
+
+      let passwordcrypt = await bcrypt.hash(password, 8);
+
+      let newUserAdmin = {
+        firstname,
+        lastname,
+        email,
+        password: passwordcrypt,
+      };
+
+      const validateLocation = await Location.findOne({
+        where: location,
+      });
+
+      let adminUser;
+
+      if (validateLocation) {
+        adminUser = await User.create(newUserAdmin);
+        await validateLocation.addUser(adminUser);
+      } else {
+        const adminLocation = await Location.create(location);
+        adminUser = await User.create(newUserAdmin);
+        await adminLocation.addUser(adminUser);
+      }
+
+      const rolLower = rol.toLowerCase();
+
+      const rolUser = await Rol_user.findOne({
+        where: { name: rolLower },
+      });
+
+      await rolUser.addUser(adminUser);
+
+      const newAdminLocation = await User.findOne({
+        where: { email },
+        include: {
+          model: Location,
+        },
+      });
+
+      if (newAdminLocation) return "Admin user created";
+      else throw new ClientError("Error creating user");
+    }
+    if (rol === "brand") {
+      let {
+        firstname,
+        lastname,
+        email,
+        location,
+        phone,
+        password,
+        brand_name,
+      } = req.body;
+
+      //?el name se agrega con mayuscula
+      firstname = firstname.toUpperCase();
+      lastname = lastname.toUpperCase();
+
+      //? se busca el mail en la base de datos
+      const searchEmail = await User.findOne({
+        where: { email: email },
+      });
+
+      //? si existe el correo devuelve el error
+      if (searchEmail) {
+        throw new ClientError("The mail is already in use", 401);
+      }
+
+      passwordcrypt = await bcrypt.hash(password, 8);
+
+      let newUserBrand = {
+        firstname,
+        lastname,
+        email,
+        phone,
+        brand_name,
+        password: passwordcrypt,
+      };
+
+      const validateLocation = await Location.findOne({
+        where: location,
+      });
+
+      let brandUser;
+
+      if (validateLocation) {
+        brandUser = await User.create(newUserBrand);
+        await validateLocation.addUser(brandUser);
+      } else {
+        const brandLocation = await Location.create(location);
+        brandUser = await User.create(newUserBrand);
+        await brandLocation.addUser(brandUser);
+      }
+
+      const rolLower = rol.toLowerCase();
+
+      const rolUser = await Rol_user.findOne({
+        where: { name: rolLower },
+      });
+
+      await rolUser.addUser(brandUser);
+
+      const newBrandLocation = await User.findOne({
+        where: { email },
+        include: {
+          model: Location,
+        },
+      });
+
+      if (newBrandLocation) return "Brand user created";
+      else throw new ClientError("Error creating user");
     }
 
-    const userLocation = await User.findOne({
-      where: { email },
-      include: {
-        model: Location,
-      },
-    });
-    return userLocation;
+    if (rol === "club") {
+      let {
+        firstname,
+        lastname,
+        email,
+        location,
+        password,
+        club_name,
+        showers,
+        grills,
+        parking,
+        secutiry,
+      } = req.body;
+
+      //?el name se agrega con mayuscula
+      firstname = firstname.toUpperCase();
+      lastname = lastname.toUpperCase();
+
+      //? se busca el mail en la base de datos
+      const searchEmail = await User.findOne({
+        where: { email: email },
+      });
+
+      //? si existe el correo devuelve el error
+      if (searchEmail) {
+        throw new ClientError("The mail is already in use", 401);
+      }
+
+      passwordcrypt = await bcrypt.hash(password, 8);
+
+      let newUserClub = {
+        firstname,
+        lastname,
+        email,
+        club_name,
+        showers,
+        grills,
+        parking,
+        secutiry,
+        password: passwordcrypt,
+      };
+
+      const validateLocation = await Location.findOne({
+        where: location,
+      });
+
+      let clubUser;
+
+      if (validateLocation) {
+        clubUser = await User.create(newUserClub);
+        await validateLocation.addUser(clubUser);
+      } else {
+        const clubLocation = await Location.create(location);
+        clubUser = await User.create(newUserClub);
+        await clubLocation.addUser(clubUser);
+      }
+
+      const rolLower = rol.toLowerCase();
+
+      const rolUser = await Rol_user.findOne({
+        where: { name: rolLower },
+      });
+
+      await rolUser.addUser(clubUser);
+
+      const newClubLocation = await User.findOne({
+        where: { email },
+        include: {
+          model: Location,
+        },
+      });
+
+      if (newClubLocation) return "Club user created";
+      else throw new ClientError("Error creating user");
+    }
+
+    if (rol === "sport") {
+      let {
+        firstname,
+        lastname,
+        gender,
+        day_birth,
+        email,
+        location,
+        phone,
+        credit_card_warranty,
+        password,
+      } = req.body;
+
+      //?el name se agrega con mayuscula
+      firstname = firstname.toUpperCase();
+      lastname = lastname.toUpperCase();
+
+      //? se busca el mail en la base de datos
+      const searchEmail = await User.findOne({
+        where: { email: email },
+      });
+
+      //? si existe el correo devuelve el error
+      if (searchEmail) {
+        throw new ClientError("The mail is already in use", 401);
+      }
+      // let saveProfile = {},
+      //  saveCover = {}
+      // if (req.files) {
+      //     const { profilePhoto, coverPhoto } = req.files
+      //     cloudiconfig()
+      //     if (profilePhoto) {
+
+      //         saveProfile = await loadPhoto(profilePhoto.tempFilePath,"Artist",nickName);
+      //     }
+
+      //     if (coverPhoto) {
+      //         // cloudiconfig()
+      //         saveCover = await loadPhoto(coverPhoto.tempFilePath,"Artist",nickName);
+      //     }
+      // }
+
+      passwordcrypt = await bcrypt.hash(password, 8);
+
+      let newUserSport = {
+        firstname,
+        lastname,
+        gender,
+        day_birth,
+        email,
+        phone,
+        credit_card_warranty,
+        // coverPhoto: saveCover.secure_url,
+        password: passwordcrypt,
+      };
+
+      const validateLocation = await Location.findOne({
+        where: location,
+      });
+
+      let sportUser;
+
+      if (validateLocation) {
+        sportUser = await User.create(newUserSport);
+        await validateLocation.addUser(sportUser);
+      } else {
+        const sportLocation = await Location.create(location);
+        sportUser = await User.create(newUserSport);
+        await sportLocation.addUser(sportUser);
+      }
+
+      const newSportLocation = await User.findOne({
+        where: { email },
+        include: {
+          model: Location,
+        },
+      });
+
+      const rolLower = rol.toLowerCase();
+
+      const rolUser = await Rol_user.findOne({
+        where: { name: rolLower },
+      });
+
+      await rolUser.addUser(sportUser);
+
+      if (newSportLocation) return "Sport user created";
+      else throw new ClientError("Error creating user");
+    }
 
     //! queda un bosquejo del envio de correo automatico con nodemailer (por confirmar)
     // const config = {
@@ -140,7 +352,7 @@ const createUserController = async (req) => {
     // const getall = getArtistInfo(newArtist.email,password)
     // return (getall)
   } catch (error) {
-    throw new Error(error);
+    throw new ClientError(error.message, 500);
   }
 };
 
