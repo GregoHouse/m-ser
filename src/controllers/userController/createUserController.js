@@ -312,7 +312,28 @@ const createUserController = async (req) => {
     //         pass: PASSWORD_EMAIL
     //     }
     // }
+    //! queda un bosquejo del envio de correo automatico con nodemailer (por confirmar)
+    // const config = {
+    //     host: "smtp.gmail.com",
+    //     port: 587,
+    //     auth: {
+    //         user: EMAIL_ADDRES,
+    //         pass: PASSWORD_EMAIL
+    //     }
+    // }
 
+    // const mensaje = {
+    //     from: EMAIL_ADDRES,
+    //     to: newUser.email,
+    //     subject: "Bienvenido a Matching!",
+    //     html: `
+    //     <div style="background-color: black; padding: 10px 20px; text-align: center;">
+    //         <img src="logo de matching bla bla bla" alt="Matching! Logo" style="max-width: 400px;">
+    //     </div>
+    //     <head>
+    //     <title>Bienvenido a Matching!</title>
+    // </head>
+    // <body>
     // const mensaje = {
     //     from: EMAIL_ADDRES,
     //     to: newUser.email,
@@ -347,6 +368,27 @@ const createUserController = async (req) => {
     // </body>`
     // }
     // const transport = nodemailer.createTransport(config);
+    //     <div style="background-color: #f5f5f5; padding: 20px; font-family: Arial, sans-serif;">
+    //         <div style="background-color: #ffffff; padding: 20px;">
+    //             <h1 style="color: #333333;">¡Bienvenido a Matching!</h1>
+    //             <p>Estimado ${newUser.name},</p>
+    //             <p>¡Bienvenido a Matching!</p>
+    //              <p>Nos complace darte la bienvenida a nuestra plataforma diseñada para bla bla bla</p>
+    //             <p>En Matching  entendemos la importancia de bla bla bla. Nuestra plataforma ofrece una amplia gama de características y herramientas para bla bla bla.</p>
+    //             <p>Aquí hay algunas características destacadas de Matching:</p>
+    //             <ol>
+    //                 <li>Perfil personalizado: Crea un perfil único que bla bla bla</li>
+    //                 <li>Otras caranteristicas bla bla bla</li>
+    //             </ol>
+    //             <p>Estamos emocionados de tenerte a bordo y esperamos verte prosperar en Matching. Si tienes alguna pregunta, no dudes en ponerte en contacto con nuestro equipo de soporte a través de <a href="${EMAIL_ADDRES}">${EMAIL_ADDRES}</a>. Estaremos encantados de ayudarte en cualquier momento.</p>
+    //             <p>Una vez más, bienvenido a Matching. Estamos ansiosos de bla bla bla. ¡Juntos, haremos vibrar las canchas!</p>
+    //             <p>Saludos cordiales,</p>
+    //             <p>El equipo de Matching!</p>
+    //         </div>
+    //     </div>
+    // </body>`
+    // }
+    // const transport = nodemailer.createTransport(config);
 
     // const info = await transport.sendMail(mensaje);
     // const getall = getArtistInfo(newArtist.email,password)
@@ -356,4 +398,5 @@ const createUserController = async (req) => {
   }
 };
 
+module.exports = { createUserController };
 module.exports = { createUserController };
