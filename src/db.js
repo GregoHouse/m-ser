@@ -23,6 +23,7 @@ const modelPaymentType = require("./models/payment_type.js");
 const modelProfile = require("./models/profile.js");
 const modelPointSystem = require("./models/point_system.js");
 const modelPointEvent = require("./models/point_event.js");
+const modelRolUser = require("./models/rol_user.js");
 
 const { DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME, POSTGRES_URL } =
   process.env;
@@ -64,7 +65,7 @@ modelPaymentType(sequelize);
 modelProfile(sequelize);
 modelPointEvent(sequelize);
 modelPointSystem(sequelize);
-
+modelRolUser(sequelize);
 //sequelize.sync({force: true});
 
 const {
@@ -84,6 +85,7 @@ const {
   Rating_user,
   Reservation,
   Reservation_type,
+  Rol_user,
   Score_match,
   Shift_schedule,
   Sport,
@@ -91,6 +93,14 @@ const {
   User,
   Profile,
 } = sequelize.models;
+
+//relacion entre User y Rol
+Rol_user.hasMany(User, {
+  foreignKey: "id_rol",
+});
+User.belongsTo(Rol_user, {
+  foreignKey: "id_rol",
+});
 
 //relacion entre User y Locationn
 Location.hasMany(User, {

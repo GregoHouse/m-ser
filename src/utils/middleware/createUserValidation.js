@@ -1,32 +1,58 @@
-const ClientError  = require("../errors");
+const ClientError = require("../errors");
+const { verifyEmailPassword } = require("./metodos");
 
 module.exports = (req, res, next) => {
-    let {
-        name, lastname, email, location, password} = req.body;
-    if (name && lastname && email && location && password){ 
-        //? validacion de correo electronico
-        const valueEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        const valeuPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,15}/;
-        if (!valueEmail.test(email)) {
-            throw new ClientError("el correo no es correcto", 401);
-        }
-        /**
-        *?  validacion password del password
-        *? - Minimo 8 caracteres
-        *? - Maximo 15
-        *? - Al menos una letra mayúscula
-        *? - Al menos una letra minucula
-        *? - Al menos un numero
-        *? - No espacios en blanco
-        *? - Al menos 1 caracter especial  */
-        
-        if (!valeuPassword.test(password)) {
-            throw new ClientError("Contraseña no cumple los requisitos", 401);
-        }
-
+  let { rol } = req.body;
+  if (rol) {
+    console.log(rol.toLowerCase());
+    if (rol.toLowerCase() === "sport") {
+      let { firstname, lastname, email, location, password } = req.body;
+      if (firstname && lastname && email && location && password) {
+        verifyEmailPassword(email, password);
         return next();
+      } else {
+        throw new ClientError("You must fill in the required fields", 401);
+      }
     }
-    else {
-        throw new ClientError("Debe rellenar los campos obligatorios", 401);
+
+    if (rol.toLowerCase() === "club") {
+      let { firstname, lastname, email, location, password, club_name } =
+        req.body;
+      if ((firstname && lastname && email && location && password, club_name)) {
+        verifyEmailPassword(email, password);
+        return next();
+      } else {
+        throw new ClientError("You must fill in the required fields", 401);
+      }
     }
-}
+
+    if (rol.toLowerCase() === "brand") {
+      let { firstname, lastname, email, location, password, brand_name } =
+        req.body;
+      if (
+        firstname &&
+        lastname &&
+        email &&
+        location &&
+        password &&
+        brand_name
+      ) {
+        verifyEmailPassword(email, password);
+        return next();
+      } else {
+        throw new ClientError("You must fill in the required fields", 401);
+      }
+    }
+    if (rol.toLowerCase() === "admin") {
+      let { email, password, location } = req.body;
+      if (email && password && location) {
+        verifyEmailPassword(email, password);
+        return next();
+      } else {
+        throw new ClientError("You must fill in the required fields", 401);
+      }
+    }
+  } else {
+    throw new ClientError("User role not entered");
+  }
+};
