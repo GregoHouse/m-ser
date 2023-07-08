@@ -26,10 +26,11 @@ server.use(passport.session());
 
 server.use(morgan("dev"));
 server.use(express.json());
-server.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
-server.use(bodyParser.json({ limit: '50mb' }));
-server.use(cookieParser());server.use((req, res, next) => {
-  res.setHeader('Content-Type', 'application/json', 'Authorization');
+server.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
+server.use(bodyParser.json({ limit: "50mb" }));
+server.use(cookieParser());
+server.use((req, res, next) => {
+  res.setHeader("Content-Type", "application/json", "Authorization");
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Credentials", "true");
   res.header(
@@ -46,9 +47,7 @@ server.use((err, req, res, next) => {
   const status = err.status || 500;
   const message = err.message;
   console.error(err);
-  res.status(status).json({message});
+  res.status(status).json({ message });
 });
 
 module.exports = server;
-
-
