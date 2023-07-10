@@ -2,11 +2,15 @@ const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
   sequelize.define(
-    "Shift_schedule_court",
+    "Rol_user",
     {
-      id_shift_schedule_court: {
+      id_rol: {
         type: DataTypes.UUID,
-        primaryKey: true
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
+      },
+      name: {
+        type: DataTypes.STRING,
       },
     },
     { timestamps: true }

@@ -5,17 +5,11 @@ module.exports = (sequelize) => {
     "User",
     {
       id_user: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
-        autoIncrement: true,
       },
-
-      // id_location: {
-      //   type: DataTypes.INTEGER,
-      //   primaryKey: true,
-      // },
-
-      name: {
+      firstname: {
         type: DataTypes.STRING,
         allowNull: false,
       },
@@ -27,12 +21,12 @@ module.exports = (sequelize) => {
 
       gender: {
         type: DataTypes.STRING,
-        allowNull: false,
+        defaultValue: null,
       },
 
       day_birth: {
         type: DataTypes.STRING,
-        allowNull: false,
+        defaultValue: null,
       },
 
       email: {
@@ -40,22 +34,50 @@ module.exports = (sequelize) => {
         allowNull: false,
       },
 
-      phone: {
+      password: {
         type: DataTypes.STRING,
         allowNull: false,
+      },
+
+      phone: {
+        type: DataTypes.STRING,
       },
 
       credit_card_warranty: {
         type: DataTypes.STRING,
+        defaultValue: null,
       },
 
       avatar_img: {
         type: DataTypes.STRING,
+        defaultValue: null,
       },
 
-      password: {
+      brand_name: {
         type: DataTypes.STRING,
-        allowNull: false,
+        defaultValue: null,
+      },
+
+      club_name: {
+        type: DataTypes.STRING,
+        defaultValue: null,
+      },
+
+      showers: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: null,
+      },
+      grills: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: null,
+      },
+      parking: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: null,
+      },
+      security: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: null,
       },
     },
 

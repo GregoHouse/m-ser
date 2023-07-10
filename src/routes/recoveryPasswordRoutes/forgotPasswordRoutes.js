@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const forgotPasswordHandler = require("../../handlers/forgotPasswordHandler.js");
+const forgotPasswordHandler = require("../../handlers/recoveryPassword/forgotPasswordHandler.js");
 
 const forgotPasswordRoutes = Router();
 

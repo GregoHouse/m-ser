@@ -6,6 +6,7 @@ module.exports = (sequelize) => {
     {
       id_score: {
         type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
       },
       first_set: {

@@ -6,6 +6,7 @@ module.exports = (sequelize) => {
     {
       id_guest_reservation: {
         type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
       },
     },
