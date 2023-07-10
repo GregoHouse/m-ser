@@ -9,7 +9,8 @@ const { createUserValidation } = require("../../utils/middleware");
 
 const userRoutes = Router();
 
-userRoutes.post("/", createUserValidation, createUserHandler);
+// userRoutes.post("/", createUserValidation, createUserHandler);
+userRoutes.post("/", createUserHandler);
 userRoutes.get("/", userHandler);
 userRoutes.get("/", getUserByIdHandler);
 userRoutes.put("/update/:id_user", updateUserHandler);
