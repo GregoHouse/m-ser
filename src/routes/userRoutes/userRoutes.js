@@ -3,14 +3,14 @@ const { Router } = require("express");
 const {
   userHandler,
   getUserByIdHandler,
-} = require("../../handlers/userHandler.js");
-const { createUserHandler } = require("../../handlers/createUserHandler");
-const { updateUserHandler } = require("../../handlers/updateUserHandler");
+} = require("../../handlers/users/userHandler");
+const { createUserHandler } = require("../../handlers/users/createUserHandler");
+const { updateUserHandler } = require("../../handlers/users/updateUserHandler");
 const { callback } = require("../../handlers/oauth0Handler.js");
-const { createUserValidation } = require("../../utils/middlware");
-const loginUserHandler = require("../../handlers/loginUserHandler.js");
-const forgotPasswordHandler = require("../../handlers/forgotPasswordHandler.js");
-const resetPasswordHandler = require("../../handlers/resetPasswordHandler.js");
+const { createUserValidation } = require("../../utils/middleware/createUserValidation");
+const loginUserHandler = require("../../handlers/users/loginUserHandler");
+const forgotPasswordHandler = require("../../handlers/recoveryPassword/forgotPasswordHandler");
+const resetPasswordHandler = require("../../handlers/recoveryPassword/resetPasswordHandler");
 
 const userRoutes = Router();
 
