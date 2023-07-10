@@ -23,7 +23,7 @@ const { User } = require("../../db");
         if (avatar_img) {
           if (user.avatar_img) await DeletePhoto(user.avatar_img);
           const UpdateAvatarImg  = await loadPhoto(avatar_img.tempFilePath,"User",user.email);
-          body.avatar_img = UpdateProfile.secure_url;
+          body.avatar_img = UpdateAvatarImg.secure_url;
         } else {
           body.avatar_img = user.avatar_img;
         }
