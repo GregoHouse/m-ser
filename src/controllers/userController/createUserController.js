@@ -242,8 +242,7 @@ const createUserController = async (req) => {
         throw new ClientError("The mail is already in use", 401);
       }
 
-      let saveProfile = {},
-      saveCover = {}
+      let saveProfile = {}
       if (req.files) {
         const { avatar_img } = req.files
           cloudiconfig()

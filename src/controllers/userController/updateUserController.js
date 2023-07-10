@@ -1,4 +1,5 @@
-  const { User } = require("../../db");
+const {cloudiconfig, loadPhoto, DeletePhoto} = require("../../utils/cloudinary");
+const { User } = require("../../db");
   
   const updateUserController = async (req) => {
     const { id_user } = req.params;
@@ -16,6 +17,19 @@
       });
       if (!user) throw new Error("No se encontró ningún usuario con ese ID");
 
+      if (req.files) {
+        const { avatar_img } = req.files;
+        cloudiconfig();
+        if (avatar_img) {
+          if (user.avatar_img) await DeletePhoto(user.avatar_img);
+          const UpdateAvatarImg  = await loadPhoto(avatar_img.tempFilePath,"User",user.email);
+          body.avatar_img = UpdateProfile.secure_url;
+        } else {
+          body.avatar_img = user.avatar_img;
+        }
+      } else {
+        body.avatar_img = user.avatar_img;
+      }
       await User.update(body, { where: { id_user: parseInt(id_user) } });
     }
     const userActualizado = await User.findOne({
