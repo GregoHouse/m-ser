@@ -14,7 +14,8 @@ const resetPasswordHandler = require("../../handlers/resetPasswordHandler.js");
 
 const userRoutes = Router();
 
-userRoutes.post("/", createUserValidation, createUserHandler);
+// userRoutes.post("/", createUserValidation, createUserHandler);
+userRoutes.post("/", createUserHandler);
 userRoutes.get("/", userHandler);
 userRoutes.get(
   "/auth/google",

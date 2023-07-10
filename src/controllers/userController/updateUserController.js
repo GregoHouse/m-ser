@@ -1,32 +1,39 @@
-const { User, Sport } = require("../../db");
+const {cloudiconfig, loadPhoto, DeletePhoto} = require("../../utils/cloudinary");
+const { User } = require("../../db");
+  
+  const updateUserController = async (req) => {
+    const { id_user } = req.params;
+    console.log(req.body)
+    console.log(req.params)
+    let { body } = req;
+    
+    if (!id_user) {
+      throw new Error("No se especificó el ID del usuario");
+    } else {
+      body.id_user = parseInt(id_user);
+  
+      const user = await User.findOne({
+        where: { id_user },
+      });
+      if (!user) throw new Error("No se encontró ningún usuario con ese ID");
 
-const updateUserController = async (req) => {
-  const { id_user } = req.params;
-  console.log(req.body);
-  console.log(req.params);
-  let { body } = req;
-  let { sports } = body;
-
-  if (!id_user) {
-    throw new Error("User ID is required");
-  } else {
-    body.id_user = parseInt(id_user);
-
-    const user = await User.findOne({
-      where: { id_user },
-    });
-    if (!user) throw new Error("No user found with that ID");
-
-    await User.update(body, { where: { id_user: parseInt(id_user) } });
-  }
-  const userActualizado = await User.findOne({
-    where: { id_user },
-  });
-
-  sports &&
-    sports.length > 0 &&
-    sports.forEach(async (sport) => {
-      const sportDB = await Sport.findOne({ where: { id_sport: sport } });
+      if (req.files) {
+        const { avatar_img } = req.files;
+        cloudiconfig();
+        if (avatar_img) {
+          if (user.avatar_img) await DeletePhoto(user.avatar_img);
+          const UpdateAvatarImg  = await loadPhoto(avatar_img.tempFilePath,"User",user.email);
+          body.avatar_img = UpdateProfile.secure_url;
+        } else {
+          body.avatar_img = user.avatar_img;
+        }
+      } else {
+        body.avatar_img = user.avatar_img;
+      }
+      await User.update(body, { where: { id_user: parseInt(id_user) } });
+    }
+    const userActualizado = await User.findOne({
+      where: {id_user}
     });
   const newInfoUser = {
     id_user: userActualizado.id_user,
