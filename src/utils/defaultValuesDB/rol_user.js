@@ -1,8 +1,8 @@
-const { Rol_user } = require("../../db.js");
+const { Rol_user, Sport } = require("../../db.js");
 
 module.exports = async () => {
   const roles = await Rol_user.findAll();
-
+  const sports = await Sport.findAll();
   if (roles.length === 0) {
     await Rol_user.bulkCreate([
       { name: "admin" },
@@ -10,6 +10,10 @@ module.exports = async () => {
       { name: "club" },
       { name: "sport" },
     ]);
+  } else if(sports.length === 0){
+    await Sport.bulkCreate([
+      { name: "Padel"}
+    ])
   } else {
     return;
   }
