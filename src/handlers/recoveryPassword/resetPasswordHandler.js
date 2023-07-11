@@ -1,4 +1,4 @@
-const resetPassword = require("../../controllers/recoveryPasswordControllers/resetPassword.js");
+const resetPassword = require("../../controllers/recoveryPasswordControllers/resetPasswordController.js");
 const { catchedAsync } = require("../../utils");
 
 const resetPasswordHandler = async (req, res) => {
