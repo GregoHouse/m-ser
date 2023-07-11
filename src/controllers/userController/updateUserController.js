@@ -7,18 +7,18 @@ const { User, Sport } = require("../../db");
 
 const updateUserController = async (req) => {
   const { id_user } = req.params;
-  console.log(req.body);
-  console.log(req.params);
+
   let { body } = req;
   let { sports } = body;
   if (!id_user) {
     throw new Error("No se especificó el ID del usuario");
   } else {
-    body.id_user = parseInt(id_user);
+    body.id_user = id_user;
 
     const user = await User.findOne({
       where: { id_user },
     });
+
     if (!user) throw new Error("No se encontró ningún usuario con ese ID");
 
     if (req.files) {
@@ -38,7 +38,7 @@ const updateUserController = async (req) => {
     } else {
       body.avatar_img = user.avatar_img;
     }
-    await User.update(body, { where: { id_user: parseInt(id_user) } });
+    await User.update(body, { where: { id_user: id_user } });
   }
   const userActualizado = await User.findOne({
     where: { id_user },
@@ -49,12 +49,12 @@ const updateUserController = async (req) => {
     sports.forEach(async (sport) => {
       const sportRelation = await Sport.findOne({ where: { id_sport: sport } });
 
-      sportRelation.addUsers(userActualizado);
+      sportRelation.addUser(userActualizado);
     });
 
   const newInfoUser = {
     id_user: userActualizado.id_user,
-    name: userActualizado.name.toUpperCase(),
+    firstname: userActualizado.firstname.toUpperCase(),
     lastname: userActualizado.lastname,
     gender: userActualizado.gender,
     day_birthday: userActualizado.day_birthday,

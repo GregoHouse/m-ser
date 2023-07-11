@@ -7,7 +7,9 @@ const {
 const { createUserHandler } = require("../../handlers/users/createUserHandler");
 const { updateUserHandler } = require("../../handlers/users/updateUserHandler");
 const { callback } = require("../../handlers/oauth0Handler.js");
-const { createUserValidation } = require("../../utils/middleware/createUserValidation");
+const {
+  createUserValidation,
+} = require("../../utils/middleware/createUserValidation");
 const loginUserHandler = require("../../handlers/users/loginUserHandler");
 const forgotPasswordHandler = require("../../handlers/recoveryPassword/forgotPasswordHandler");
 const resetPasswordHandler = require("../../handlers/recoveryPassword/resetPasswordHandler");
@@ -31,6 +33,6 @@ userRoutes.post("/login", loginUserHandler);
 userRoutes.get("/forgotPassword", forgotPasswordHandler);
 userRoutes.get("/resetPassword", resetPasswordHandler);
 userRoutes.get("/:id", getUserByIdHandler);
-userRoutes.put("/update/:id_user", updateUserHandler);
+//userRoutes.put("/update/:id_user", updateUserHandler);
 
 module.exports = userRoutes;
