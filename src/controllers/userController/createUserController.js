@@ -1,12 +1,10 @@
 const { User, Location, Rol_user } = require("../../db");
 const bcrypt = require("bcrypt");
 const ClientError = require("../../utils/errors");
-const { cloudiconfig, loadPhoto } = require("../../utils/cloudinary")
+const { cloudiconfig, loadPhoto } = require("../../utils/cloudinary");
 //! const getUserinfo = require("./")
-const { EMAIL_OWN_PASS, EMAIL_OWN} = process.env;
-const nodemailer = require("nodemailer")
-
-
+const { EMAIL_OWN_PASS, EMAIL_OWN } = process.env;
+const nodemailer = require("nodemailer");
 
 const createUserController = async (req) => {
   try {
@@ -242,13 +240,13 @@ const createUserController = async (req) => {
         throw new ClientError("The mail is already in use", 401);
       }
 
-      let saveProfile = {}
+      let saveProfile = {};
       if (req.files) {
-        const { avatar_img } = req.files
-          cloudiconfig()
-          if (avatar_img) {
-              saveProfile = await loadPhoto(avatar_img.tempFilePath,"User",email);
-          }
+        const { avatar_img } = req.files;
+        cloudiconfig();
+        if (avatar_img) {
+          saveProfile = await loadPhoto(avatar_img.tempFilePath, "User", email);
+        }
       }
 
       passwordcrypt = await bcrypt.hash(password, 8);
@@ -261,7 +259,7 @@ const createUserController = async (req) => {
         email,
         phone,
         credit_card_warranty,
-        avatar_img: saveCover.secure_url,
+        avatar_img: saveProfile.secure_url,
         password: passwordcrypt,
       };
 
@@ -303,16 +301,16 @@ const createUserController = async (req) => {
       host: "smtp.gmail.com",
       port: 465,
       auth: {
-          user: EMAIL_OWN,
-          pass: EMAIL_OWN_PASS
-      }
-    }
+        user: EMAIL_OWN,
+        pass: EMAIL_OWN_PASS,
+      },
+    };
 
     const mensaje = {
       from: EMAIL_OWN,
-          to: newUser.email,
-          subject: "Bienvenido a Matching!",
-          html: `
+      to: newUser.email,
+      subject: "Bienvenido a Matching!",
+      html: `
       <div style="background-color: black; padding: 10px 20px; text-align: center;">
           <img src="logo de matching bla bla bla" alt="Matching! Logo" style="max-width: 400px;">
       </div>
@@ -339,14 +337,14 @@ const createUserController = async (req) => {
               <p>El equipo de Matching!</p>
           </div>
       </div>
-  </body>`
+  </body>`,
+    };
+    const transport = nodemailer.createTransport(config);
+
+    const info = await transport.sendMail(mensaje);
+    // return userLocation;
+  } catch (error) {
+    throw new Error(error);
   }
-  const transport = nodemailer.createTransport(config);
-  
-  const info = await transport.sendMail(mensaje);
-  // return userLocation;
-} catch (error) {
-  throw new Error(error)
-}
-}
+};
 module.exports = { createUserController };
