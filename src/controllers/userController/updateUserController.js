@@ -55,7 +55,7 @@ const updateUserController = async (req) => {
   const newInfoUser = {
     id_user: userActualizado.id_user,
     firstname: userActualizado.firstname.toUpperCase(),
-    lastname: userActualizado.lastname,
+    lastname: userActualizado.lastname.toUpperCase(),
     gender: userActualizado.gender,
     day_birthday: userActualizado.day_birthday,
     email: userActualizado.email,
