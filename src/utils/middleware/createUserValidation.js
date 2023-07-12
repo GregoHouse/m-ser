@@ -4,7 +4,6 @@ const { verifyEmailPassword } = require("./metodos");
 module.exports = (req, res, next) => {
   let { rol } = req.body;
   if (rol) {
-    console.log(rol.toLowerCase());
     if (rol.toLowerCase() === "sport") {
       let { firstname, lastname, email, location, password } = req.body;
       if (firstname && lastname && email && location && password) {
