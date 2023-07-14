@@ -314,8 +314,12 @@ Profile.belongsToMany(Club, {
 });
 
 //relacion entre location y Court
-/*Location.hasMany(Court);
-Court.belongsTo(Location);*/
+Location.hasMany(Court, {
+    foreignKey: "id_location"
+});
+Court.belongsTo(Location, {
+    foreignKey: "id_location"
+});
 
 //relacion entre Score_match y team_match
 Score_match.hasOne(Team_match, {
