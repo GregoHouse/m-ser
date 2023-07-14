@@ -1,6 +1,7 @@
 const { User, Location, Rol_user } = require("../../db");
 const bcrypt = require("bcrypt");
 const ClientError = require("../../utils/errors");
+const serializer = require('../../utils/serializer')
 const { cloudiconfig, loadPhoto } = require("../../utils/cloudinary");
 //! const getUserinfo = require("./")
 const { EMAIL_OWN_PASS, EMAIL_OWN } = process.env;
@@ -62,9 +63,10 @@ const createUserController = async (req) => {
         include: {
           model: Location,
         },
+        attributes: { exclude: ["password", "updatedAt"] }
       });
-
-      if (newAdminLocation) return "Admin user created";
+   
+      if (newAdminLocation) return serializer(newAdminLocation);
       else throw new ClientError("Error creating user");
     }
     if (rol === "brand") {
@@ -131,9 +133,10 @@ const createUserController = async (req) => {
         include: {
           model: Location,
         },
+        attributes: { exclude: ["password", "updatedAt"] }
       });
 
-      if (newBrandLocation) return "Brand user created";
+      if (newBrandLocation) return  serializer(newBrandLocation);
       else throw new ClientError("Error creating user");
     }
 
@@ -207,9 +210,10 @@ const createUserController = async (req) => {
         include: {
           model: Location,
         },
+        attributes: { exclude: ["password", "updatedAt"] }
       });
 
-      if (newClubLocation) return "Club user created";
+      if (newClubLocation) return serializer(newClubLocation);
       else throw new ClientError("Error creating user");
     }
 
@@ -278,13 +282,6 @@ const createUserController = async (req) => {
         await sportLocation.addUser(sportUser);
       }
 
-      const newSportLocation = await User.findOne({
-        where: { email },
-        include: {
-          model: Location,
-        },
-      });
-
       const rolLower = rol.toLowerCase();
 
       const rolUser = await Rol_user.findOne({
@@ -293,7 +290,15 @@ const createUserController = async (req) => {
 
       await rolUser.addUser(sportUser);
 
-      if (newSportLocation) return "Sport user created";
+      const newSportLocation = await User.findOne({
+        where: { email },
+        include: {
+          model: Location,
+        },
+        attributes: { exclude: ["password", "updatedAt"] }
+      });
+
+      if (newSportLocation) return serializer(newSportLocation);
       else throw new ClientError("Error creating user");
     }
 
