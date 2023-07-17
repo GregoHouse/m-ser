@@ -1,4 +1,4 @@
-const { User, Location, Rol_user } = require("../../db");
+const { User, Location, Rol_user, Sport } = require("../../db");
 const bcrypt = require("bcrypt");
 const ClientError = require("../../utils/errors");
 const serializer = require("../../utils/serializer");
@@ -217,7 +217,7 @@ const createUserController = async (req) => {
       else throw new ClientError("Error creating user");
     }
 
-    let { sport } = body;
+    // let { sport } = body;
 
     if (rol === "sport") {
       let {
@@ -230,6 +230,7 @@ const createUserController = async (req) => {
         phone,
         credit_card_warranty,
         password,
+        sports,
       } = req.body;
 
       //?el name se agrega con mayuscula
@@ -268,6 +269,15 @@ const createUserController = async (req) => {
         avatar_img: saveProfile.secure_url,
         password: passwordcrypt,
       };
+
+      sports &&
+        sports.length > 0 &&
+        sports.forEach(async (sport) => {
+          const sportRelation = await Sport.findOne({
+            where: { id_sport: sport },
+          });
+          sportRelation.addUser(newUserSport);
+        });
 
       const validateLocation = await Location.findOne({
         where: location,
@@ -354,6 +364,5 @@ const createUserController = async (req) => {
     throw new Error(error);
   }
 };
-
 
 module.exports = { createUserController };
