@@ -218,7 +218,6 @@ const createUserController = async (req) => {
     }
 
     if (rol === "sport") {
-        console.log(req)
       let {
         firstname,
         lastname,
