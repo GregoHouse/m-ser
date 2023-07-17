@@ -41,7 +41,6 @@ function generarUsuario() {
 const generateUsers = async () => {
     for (let i = 0; i < 50; i++) {
         const user = await generarUsuario();
-        console.log(user)
         await createUserController(user);
     }
 };
