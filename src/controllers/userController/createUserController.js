@@ -270,14 +270,19 @@ const createUserController = async (req) => {
         password: passwordcrypt,
       };
 
-      sports &&
-        sports.length > 0 &&
-        sports.forEach(async (sport) => {
-          const sportRelation = await Sport.findOne({
-            where: { id_sport: sport },
-          });
-          sportRelation.addUser(newUserSport);
-        });
+      // sports &&
+      //   sports.length > 0 &&
+      //   sports.forEach(async (sport) => {
+      //     console.log(sport);
+
+      //     const sportRelation = await Sport.findOne({
+      //       where: { name: sport },
+      //     });
+
+      //     console.log(sportRelation);
+
+      //     await newUserSport.addUser(sportRelation);
+      //   });
 
       const validateLocation = await Location.findOne({
         where: location,
@@ -292,6 +297,18 @@ const createUserController = async (req) => {
         const sportLocation = await Location.create(location);
         sportUser = await User.create(newUserSport);
         await sportLocation.addUser(sportUser);
+      }
+
+      if (sports && sports.length > 0) {
+        for (const sport of sports) {
+          const sportRelation = await Sport.findOne({
+            where: { name: sport },
+          });
+
+          if (sportRelation) {
+            await sportRelation.addUser(sportUser);
+          }
+        }
       }
 
       const rolLower = rol.toLowerCase();

@@ -14,6 +14,7 @@ module.exports = (req, res, next) => {
         phone,
         password,
         location,
+        sports,
       } = req.body;
       if (
         firstname &&
@@ -23,7 +24,8 @@ module.exports = (req, res, next) => {
         email &&
         phone &&
         password &&
-        location
+        location &&
+        sports
       ) {
         verifyEmailPassword(email, password);
         return next();
