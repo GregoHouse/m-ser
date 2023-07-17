@@ -8,7 +8,7 @@ const { createRolUser } = require("./src/utils/defaultValuesDB");
 
 conectarDB().then(() => {
   conn
-    .sync({ force: true })
+    .sync({ force: false })
     .then(() => {
       createRolUser();
       server.listen(PORT, () => {
