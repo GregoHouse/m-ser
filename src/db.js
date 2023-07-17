@@ -42,6 +42,9 @@ const sequelize = new Sequelize(
 
 });*/
 
+
+
+
 modelUser(sequelize);
 modelRecoveryCode(sequelize);
 modelAdvertisingSystem(sequelize);
@@ -328,6 +331,7 @@ Match_result.hasMany(Team_match, {
 Team_match.belongsTo(Match_result, {
   foreignKey: "id_match_result",
 });
+
 
 module.exports = {
   sequelize,

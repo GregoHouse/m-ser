@@ -218,6 +218,7 @@ const createUserController = async (req) => {
     }
 
     if (rol === "sport") {
+        console.log(req)
       let {
         firstname,
         lastname,
@@ -352,4 +353,6 @@ const createUserController = async (req) => {
     throw new Error(error);
   }
 };
+
+
 module.exports = { createUserController };
