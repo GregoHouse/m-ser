@@ -42,6 +42,16 @@ const sequelize = new Sequelize(
 
 });*/
 
+const conectarDB = async () => {
+  try {
+    await sequelize.authenticate();
+    console.log("conectados a la base de datos");
+  } catch (error) {
+    //si hay un error consologear y salir de la conexion
+    process.exit(1);
+  }
+};
+
 modelUser(sequelize);
 modelRecoveryCode(sequelize);
 modelAdvertisingSystem(sequelize);
@@ -307,10 +317,10 @@ Profile.belongsToMany(Club, {
 
 //relacion entre location y Court
 Location.hasMany(Court, {
-    foreignKey: "id_location"
+  foreignKey: "id_location",
 });
 Court.belongsTo(Location, {
-    foreignKey: "id_location"
+  foreignKey: "id_location",
 });
 
 //relacion entre Score_match y team_match
@@ -333,4 +343,5 @@ module.exports = {
   sequelize,
   ...sequelize.models,
   conn: sequelize,
+  conectarDB,
 };
