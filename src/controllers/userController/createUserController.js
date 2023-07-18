@@ -1,7 +1,7 @@
-const { User, Location, Rol_user } = require("../../db");
+const { User, Location, Rol_user, Sport } = require("../../db");
 const bcrypt = require("bcrypt");
 const ClientError = require("../../utils/errors");
-const serializer = require('../../utils/serializer')
+const serializer = require("../../utils/serializer");
 const { cloudiconfig, loadPhoto } = require("../../utils/cloudinary");
 //! const getUserinfo = require("./")
 const { EMAIL_OWN_PASS, EMAIL_OWN } = process.env;
@@ -63,9 +63,9 @@ const createUserController = async (req) => {
         include: {
           model: Location,
         },
-        attributes: { exclude: ["password", "updatedAt"] }
+        attributes: { exclude: ["password", "updatedAt"] },
       });
-   
+
       if (newAdminLocation) return serializer(newAdminLocation);
       else throw new ClientError("Error creating user");
     }
@@ -133,10 +133,10 @@ const createUserController = async (req) => {
         include: {
           model: Location,
         },
-        attributes: { exclude: ["password", "updatedAt"] }
+        attributes: { exclude: ["password", "updatedAt"] },
       });
 
-      if (newBrandLocation) return  serializer(newBrandLocation);
+      if (newBrandLocation) return serializer(newBrandLocation);
       else throw new ClientError("Error creating user");
     }
 
@@ -210,12 +210,14 @@ const createUserController = async (req) => {
         include: {
           model: Location,
         },
-        attributes: { exclude: ["password", "updatedAt"] }
+        attributes: { exclude: ["password", "updatedAt"] },
       });
 
       if (newClubLocation) return serializer(newClubLocation);
       else throw new ClientError("Error creating user");
     }
+
+    // let { sport } = body;
 
     if (rol === "sport") {
       let {
@@ -228,6 +230,7 @@ const createUserController = async (req) => {
         phone,
         credit_card_warranty,
         password,
+        sports,
       } = req.body;
 
       //?el name se agrega con mayuscula
@@ -267,6 +270,20 @@ const createUserController = async (req) => {
         password: passwordcrypt,
       };
 
+      // sports &&
+      //   sports.length > 0 &&
+      //   sports.forEach(async (sport) => {
+      //     console.log(sport);
+
+      //     const sportRelation = await Sport.findOne({
+      //       where: { name: sport },
+      //     });
+
+      //     console.log(sportRelation);
+
+      //     await newUserSport.addUser(sportRelation);
+      //   });
+
       const validateLocation = await Location.findOne({
         where: location,
       });
@@ -282,6 +299,18 @@ const createUserController = async (req) => {
         await sportLocation.addUser(sportUser);
       }
 
+      if (sports && sports.length > 0) {
+        for (const sport of sports) {
+          const sportRelation = await Sport.findOne({
+            where: { name: sport },
+          });
+
+          if (sportRelation) {
+            await sportRelation.addUser(sportUser);
+          }
+        }
+      }
+
       const rolLower = rol.toLowerCase();
 
       const rolUser = await Rol_user.findOne({
@@ -295,7 +324,7 @@ const createUserController = async (req) => {
         include: {
           model: Location,
         },
-        attributes: { exclude: ["password", "updatedAt"] }
+        attributes: { exclude: ["password", "updatedAt"] },
       });
 
       if (newSportLocation) return serializer(newSportLocation);
@@ -352,6 +381,5 @@ const createUserController = async (req) => {
     throw new Error(error);
   }
 };
-
 
 module.exports = { createUserController };
