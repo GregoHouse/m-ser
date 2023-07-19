@@ -1,4 +1,4 @@
-const { Profile, User, Sport } = require("../../../db.js");
+const { Profile, User, Sport, Rol_user } = require("../../../db.js");
 const ClientError = require("../../../utils/errors");
 
 module.exports = async (req) => {
@@ -13,10 +13,13 @@ module.exports = async (req) => {
     category_lvl,
   } = req.body;
 
-  const userSport = await User.findOne({ where: { id_user } });
+  const userSport = await User.findOne({
+    where: { id_user, available: true },
+    include: { model: Rol_user },
+  });
   const sport = await Sport.findOne({ where: { id_sport } });
 
-  if (userSport && sport) {
+  if (userSport && sport && userSport.Rol_user["name"] === "sport") {
     const validateProfile = await Profile.findOne({
       where: {
         id_sport,
@@ -34,12 +37,14 @@ module.exports = async (req) => {
         day_preference,
         time_preference,
         category_lvl,
+        id_sport,
+        id_user,
       });
 
-      userSport.addProfile(profileSport);
-      sport.addProfile(profileSport);
+      //userSport.addProfile(profileSport);
+      //sport.addProfile(profileSport);
 
-      return "Sport profile created successfully";
+      return profileSport;
     }
   } else {
     throw new ClientError(

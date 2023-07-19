@@ -1,4 +1,3 @@
-require("dotenv").config();
 const { Sequelize } = require("sequelize");
 const modelUser = require("./models/user.js");
 const modelRecoveryCode = require("./models/recoveryCode.js");
@@ -25,8 +24,13 @@ const modelPointSystem = require("./models/point_system.js");
 const modelPointEvent = require("./models/point_event.js");
 const modelRolUser = require("./models/rol_user.js");
 
-const { DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME, POSTGRES_URL } =
-  process.env;
+const {
+  DB_USER,
+  DB_PASSWORD,
+  DB_HOST,
+  DB_PORT,
+  DB_NAME,
+} = require("./config/env.js");
 
 const sequelize = new Sequelize(
   `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}`,
@@ -76,7 +80,6 @@ modelProfile(sequelize);
 modelPointEvent(sequelize);
 modelPointSystem(sequelize);
 modelRolUser(sequelize);
-//sequelize.sync({force: true});
 
 const {
   Advertising_system,
@@ -103,6 +106,14 @@ const {
   User,
   Profile,
 } = sequelize.models;
+
+//relacion entre User(club) y Club
+User.hasMany(Club, {
+  foreignKey: "id_user",
+});
+Club.belongsTo(User, {
+  foreignKey: "id_user",
+});
 
 //relacion entre User y Rol
 Rol_user.hasMany(User, {

@@ -1,17 +1,17 @@
 require("./db.js");
-require('dotenv').config();
-require('./controllers/userController/oauth0UserController.js')
+require("./controllers/userController/oauth0UserController.js");
 const express = require("express");
 const routes = require("./routes/index");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-const passport = require('passport');
-const session = require('express-session');
-const {OAUTH0_CLIENT_SECRET} = process.env;
+const passport = require("passport");
+const session = require("express-session");
+const { OAUTH0_CLIENT_SECRET, PORT } = require("./config/env.js");
 
 const server = express();
 server.name = "API";
+server.set("port", PORT);
 
 server.use(
   session({
