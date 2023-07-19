@@ -1,9 +1,8 @@
-require("dotenv").config();
 const { User, RecoveryCode } = require("../../db.js");
 const nodemailer = require("nodemailer");
 const randomize = require("randomatic");
 
-const { EMAIL_OWN, EMAIL_OWN_PASS } = process.env;
+const { EMAIL_OWN, EMAIL_OWN_PASS } = require("../../config/env.js");
 
 const forgotPassword = async (email) => {
   let code = randomize("A0", 4);

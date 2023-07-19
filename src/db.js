@@ -1,4 +1,3 @@
-require("dotenv").config();
 const { Sequelize } = require("sequelize");
 const modelUser = require("./models/user.js");
 const modelRecoveryCode = require("./models/recoveryCode.js");
@@ -25,8 +24,13 @@ const modelPointSystem = require("./models/point_system.js");
 const modelPointEvent = require("./models/point_event.js");
 const modelRolUser = require("./models/rol_user.js");
 
-const { DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME, POSTGRES_URL } =
-  process.env;
+const {
+  DB_USER,
+  DB_PASSWORD,
+  DB_HOST,
+  DB_PORT,
+  DB_NAME,
+} = require("./config/env.js");
 
 const sequelize = new Sequelize(
   `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}`,

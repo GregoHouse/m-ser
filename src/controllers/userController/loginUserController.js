@@ -1,8 +1,7 @@
-require("dotenv").config();
 const { User, Rol_user } = require("../../db");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const { DB_NAME } = process.env;
+const { DB_NAME } = require("../../config/env.js");
 
 const loginUser = async (email, password) => {
   const user = await User.findOne({ where: { email } });
