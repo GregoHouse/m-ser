@@ -80,7 +80,6 @@ modelProfile(sequelize);
 modelPointEvent(sequelize);
 modelPointSystem(sequelize);
 modelRolUser(sequelize);
-//sequelize.sync({force: true});
 
 const {
   Advertising_system,
@@ -107,6 +106,14 @@ const {
   User,
   Profile,
 } = sequelize.models;
+
+//relacion entre User(club) y Club
+User.hasMany(Club, {
+  foreignKey: "id_user",
+});
+Club.belongsTo(User, {
+  foreignKey: "id_user",
+});
 
 //relacion entre User y Rol
 Rol_user.hasMany(User, {

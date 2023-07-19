@@ -1,10 +1,10 @@
 const {
-  createProfileSportControllers,
+  createProfileClubController,
 } = require("../../controllers/profileUser");
 
 module.exports = async (req, res) => {
   try {
-    const result = await createProfileSportControllers(req);
+    const result = await createProfileClubController(req);
     res.status(200).json(result);
   } catch (error) {
     console.log(error.message);
