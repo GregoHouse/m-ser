@@ -1,4 +1,6 @@
 const { Sequelize } = require("sequelize");
+const modelAdmin = require("./models/admin.js");
+const modelBrand = require("./models/brand.js");
 const modelUser = require("./models/user.js");
 const modelRecoveryCode = require("./models/recoveryCode.js");
 const modelAdvertisingSystem = require("./models/advertising_system.js");
@@ -22,7 +24,6 @@ const modelPaymentType = require("./models/payment_type.js");
 const modelProfile = require("./models/profile.js");
 const modelPointSystem = require("./models/point_system.js");
 const modelPointEvent = require("./models/point_event.js");
-const modelRolUser = require("./models/rol_user.js");
 
 const {
   DB_USER,
@@ -56,6 +57,8 @@ const conectarDB = async () => {
   }
 };
 
+modelAdmin(sequelize);
+modelBrand(sequelize);
 modelUser(sequelize);
 modelRecoveryCode(sequelize);
 modelAdvertisingSystem(sequelize);
@@ -79,11 +82,11 @@ modelPaymentType(sequelize);
 modelProfile(sequelize);
 modelPointEvent(sequelize);
 modelPointSystem(sequelize);
-modelRolUser(sequelize);
 
 const {
   Advertising_system,
   Advertising_event,
+  Brand,
   Club,
   Court,
   Guest_reservation,
@@ -98,7 +101,6 @@ const {
   Rating_user,
   Reservation,
   Reservation_type,
-  Rol_user,
   Score_match,
   Shift_schedule,
   Sport,
@@ -107,27 +109,27 @@ const {
   Profile,
 } = sequelize.models;
 
-//relacion entre User(club) y Club
-User.hasMany(Club, {
-  foreignKey: "id_user",
-});
-Club.belongsTo(User, {
-  foreignKey: "id_user",
-});
-
-//relacion entre User y Rol
-Rol_user.hasMany(User, {
-  foreignKey: "id_rol",
-});
-User.belongsTo(Rol_user, {
-  foreignKey: "id_rol",
-});
-
 //relacion entre User y Locationn
 Location.hasMany(User, {
   foreignKey: "id_location",
 });
 User.belongsTo(Location, {
+  foreignKey: "id_location",
+});
+
+//relacion entre Brand y Locationn
+Location.hasMany(Brand, {
+  foreignKey: "id_location",
+});
+Brand.belongsTo(Location, {
+  foreignKey: "id_location",
+});
+
+//relacion entre Club y Location
+Location.hasMany(Club, {
+  foreignKey: "id_location",
+});
+Club.belongsTo(Location, {
   foreignKey: "id_location",
 });
 
@@ -169,6 +171,14 @@ Advertising_system.hasMany(Advertising_event, {
 });
 Advertising_event.belongsTo(Advertising_system, {
   foreignKey: "id_advertising_system",
+});
+
+// relacion entr Advertising_system y Brand
+Brand.hasMany(Advertising_event, {
+  foreignKey: "id_brand",
+});
+Advertising_event.belongsTo(Brand, {
+  foreignKey: "id_brand",
 });
 
 //relacion entre Advertising_event y User

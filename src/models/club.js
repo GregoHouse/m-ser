@@ -9,22 +9,47 @@ module.exports = (sequelize) => {
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
       },
-      name: {
-        type: DataTypes.STRING
+      firstname: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+
+      lastname: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+
+      email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+
+      club_name: {
+        type: DataTypes.STRING,
       },
       showers: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
       },
       grills: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
       },
       parking: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
       },
       security: {
-        type: DataTypes.STRING
-      }
+        type: DataTypes.STRING,
+      },
+
+      available: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true,
+      },
     },
     { timestamps: true }
   );
-}
+};
