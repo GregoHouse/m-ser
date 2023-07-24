@@ -19,16 +19,6 @@ module.exports = (sequelize) => {
         allowNull: false,
       },
 
-      gender: {
-        type: DataTypes.STRING,
-        defaultValue: null,
-      },
-
-      day_birth: {
-        type: DataTypes.STRING,
-        defaultValue: null,
-      },
-
       email: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -37,51 +27,6 @@ module.exports = (sequelize) => {
       password: {
         type: DataTypes.STRING,
         allowNull: false,
-      },
-
-      phone: {
-        type: DataTypes.STRING,
-      },
-
-      credit_card_warranty: {
-        type: DataTypes.STRING,
-        defaultValue: null,
-      },
-
-      avatar_img: {
-        type: DataTypes.STRING,
-        defaultValue: null,
-      },
-
-      brand_name: {
-        type: DataTypes.STRING,
-        defaultValue: null,
-      },
-
-      club_name: {
-        type: DataTypes.STRING,
-        defaultValue: null,
-      },
-
-      showers: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: null,
-      },
-      grills: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: null,
-      },
-      parking: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: null,
-      },
-      security: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: null,
-      },
-      available: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: true,
       },
     },
 

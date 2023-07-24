@@ -2,17 +2,25 @@ const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
   sequelize.define(
-    "Rol_user",
+    "Brand_user",
     {
-      id_rol: {
+      id_brand_user: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
       },
-      name: {
+
+      brand_name: {
         type: DataTypes.STRING,
+        allowNull: false,
+      },
+
+      available: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true,
       },
     },
+
     { timestamps: true }
   );
 };

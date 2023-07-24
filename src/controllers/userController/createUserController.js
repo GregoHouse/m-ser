@@ -1,4 +1,4 @@
-const { User, Location, Rol_user, Sport } = require("../../db");
+const { User, Location, Sport } = require("../../db");
 const bcrypt = require("bcrypt");
 const ClientError = require("../../utils/errors");
 const serializer = require("../../utils/serializer");
@@ -9,327 +9,82 @@ const nodemailer = require("nodemailer");
 
 const createUserController = async (req) => {
   try {
-    let { rol } = req.body;
+    let { firstname, lastname, email, password, rol } = req.body;
 
-    rol = rol.toLowerCase();
+    //? se busca el mail en la base de datos
+    const searchEmail = await User.findOne({
+      where: { email: email },
+    });
 
-    if (rol === "admin") {
-      let { firstname, lastname, email, password, location } = req.body;
-
-      //? se busca el mail en la base de datos
-      const searchEmail = await User.findOne({
-        where: { email: email },
-      });
-
-      //? si existe el correo devuelve el error
-      if (searchEmail) {
-        throw new ClientError("The mail is already in use", 401);
-      }
-
-      let passwordcrypt = await bcrypt.hash(password, 8);
-
-      let newUserAdmin = {
-        firstname,
-        lastname,
-        email,
-        password: passwordcrypt,
-      };
-
-      const validateLocation = await Location.findOne({
-        where: location,
-      });
-
-      let adminUser;
-
-      if (validateLocation) {
-        adminUser = await User.create(newUserAdmin);
-        await validateLocation.addUser(adminUser);
-      } else {
-        const adminLocation = await Location.create(location);
-        adminUser = await User.create(newUserAdmin);
-        await adminLocation.addUser(adminUser);
-      }
-
-      const rolLower = rol.toLowerCase();
-
-      const rolUser = await Rol_user.findOne({
-        where: { name: rolLower },
-      });
-
-      await rolUser.addUser(adminUser);
-
-      const newAdminLocation = await User.findOne({
-        where: { email },
-        include: {
-          model: Location,
-        },
-        attributes: { exclude: ["password", "updatedAt"] },
-      });
-
-      if (newAdminLocation) return serializer(newAdminLocation);
-      else throw new ClientError("Error creating user");
-    }
-    if (rol === "brand") {
-      let {
-        firstname,
-        lastname,
-        email,
-        location,
-        phone,
-        password,
-        brand_name,
-      } = req.body;
-
-      //?el name se agrega con mayuscula
-      firstname = firstname.toUpperCase();
-      lastname = lastname.toUpperCase();
-
-      //? se busca el mail en la base de datos
-      const searchEmail = await User.findOne({
-        where: { email: email },
-      });
-
-      //? si existe el correo devuelve el error
-      if (searchEmail) {
-        throw new ClientError("The mail is already in use", 401);
-      }
-
-      passwordcrypt = await bcrypt.hash(password, 8);
-
-      let newUserBrand = {
-        firstname,
-        lastname,
-        email,
-        phone,
-        brand_name,
-        password: passwordcrypt,
-      };
-
-      const validateLocation = await Location.findOne({
-        where: location,
-      });
-
-      let brandUser;
-
-      if (validateLocation) {
-        brandUser = await User.create(newUserBrand);
-        await validateLocation.addUser(brandUser);
-      } else {
-        const brandLocation = await Location.create(location);
-        brandUser = await User.create(newUserBrand);
-        await brandLocation.addUser(brandUser);
-      }
-
-      const rolLower = rol.toLowerCase();
-
-      const rolUser = await Rol_user.findOne({
-        where: { name: rolLower },
-      });
-
-      await rolUser.addUser(brandUser);
-
-      const newBrandLocation = await User.findOne({
-        where: { email },
-        include: {
-          model: Location,
-        },
-        attributes: { exclude: ["password", "updatedAt"] },
-      });
-
-      if (newBrandLocation) return serializer(newBrandLocation);
-      else throw new ClientError("Error creating user");
+    //? si existe el correo devuelve el error
+    if (searchEmail) {
+      throw new ClientError("The mail is already in use", 401);
     }
 
-    if (rol === "club") {
-      let {
-        firstname,
-        lastname,
-        email,
-        location,
-        password,
-        club_name,
-        showers,
-        grills,
-        parking,
-        secutiry,
-      } = req.body;
+    // let saveProfile = {};
+    // if (avatar_img) {
+    //   const image_cloud = avatar_img;
+    //   cloudiconfig();
+    //   if (image_cloud) {
+    //     saveProfile = await loadPhoto(
+    //       image_cloud.tempFilePath || image_cloud,
+    //       "User",
+    //       email
+    //     );
+    //   }
+    // }
 
-      //?el name se agrega con mayuscula
-      firstname = firstname.toUpperCase();
-      lastname = lastname.toUpperCase();
+    passwordcrypt = await bcrypt.hash(password, 8);
 
-      //? se busca el mail en la base de datos
-      const searchEmail = await User.findOne({
-        where: { email: email },
-      });
+    let newUserSport = {
+      firstname,
+      lastname,
+      gender,
+      day_birth,
+      email,
+      phone,
+      credit_card_warranty,
+      avatar_img,
+      password: passwordcrypt,
+    };
 
-      //? si existe el correo devuelve el error
-      if (searchEmail) {
-        throw new ClientError("The mail is already in use", 401);
-      }
+    const validateLocation = await Location.findOne({
+      where: location,
+    });
 
-      passwordcrypt = await bcrypt.hash(password, 8);
+    let sportUser;
 
-      let newUserClub = {
-        firstname,
-        lastname,
-        email,
-        club_name,
-        showers,
-        grills,
-        parking,
-        secutiry,
-        password: passwordcrypt,
-      };
-
-      const validateLocation = await Location.findOne({
-        where: location,
-      });
-
-      let clubUser;
-
-      if (validateLocation) {
-        clubUser = await User.create(newUserClub);
-        await validateLocation.addUser(clubUser);
-      } else {
-        const clubLocation = await Location.create(location);
-        clubUser = await User.create(newUserClub);
-        await clubLocation.addUser(clubUser);
-      }
-
-      const rolLower = rol.toLowerCase();
-
-      const rolUser = await Rol_user.findOne({
-        where: { name: rolLower },
-      });
-
-      await rolUser.addUser(clubUser);
-
-      const newClubLocation = await User.findOne({
-        where: { email },
-        include: {
-          model: Location,
-        },
-        attributes: { exclude: ["password", "updatedAt"] },
-      });
-
-      if (newClubLocation) return serializer(newClubLocation);
-      else throw new ClientError("Error creating user");
+    if (validateLocation) {
+      sportUser = await User.create(newUserSport);
+      await validateLocation.addUser(sportUser);
+    } else {
+      const sportLocation = await Location.create(location);
+      sportUser = await User.create(newUserSport);
+      await sportLocation.addUser(sportUser);
     }
 
-    // let { sport } = body;
+    if (sports && sports.length > 0) {
+      for (const sport of sports) {
+        const sportRelation = await Sport.findOne({
+          where: { name: sport },
+        });
 
-    if (rol === "sport") {
-      let {
-        firstname,
-        lastname,
-        gender,
-        day_birth,
-        email,
-        location,
-        phone,
-        credit_card_warranty,
-        password,
-        sports,
-      } = req.body;
-
-      //?el name se agrega con mayuscula
-      firstname = firstname.toUpperCase();
-      lastname = lastname.toUpperCase();
-
-      //? se busca el mail en la base de datos
-      const searchEmail = await User.findOne({
-        where: { email: email },
-      });
-
-      //? si existe el correo devuelve el error
-      if (searchEmail) {
-        throw new ClientError("The mail is already in use", 401);
-      }
-
-      let saveProfile = {};
-      if (req.files) {
-        const { avatar_img } = req.files;
-        cloudiconfig();
-        if (avatar_img) {
-          saveProfile = await loadPhoto(avatar_img.tempFilePath, "User", email);
+        if (sportRelation) {
+          await sportRelation.addUser(sportUser);
         }
       }
-
-      passwordcrypt = await bcrypt.hash(password, 8);
-
-      let newUserSport = {
-        firstname,
-        lastname,
-        gender,
-        day_birth,
-        email,
-        phone,
-        credit_card_warranty,
-        avatar_img: saveProfile.secure_url,
-        password: passwordcrypt,
-      };
-
-      // sports &&
-      //   sports.length > 0 &&
-      //   sports.forEach(async (sport) => {
-      //     console.log(sport);
-
-      //     const sportRelation = await Sport.findOne({
-      //       where: { name: sport },
-      //     });
-
-      //     console.log(sportRelation);
-
-      //     await newUserSport.addUser(sportRelation);
-      //   });
-
-      const validateLocation = await Location.findOne({
-        where: location,
-      });
-
-      let sportUser;
-
-      if (validateLocation) {
-        sportUser = await User.create(newUserSport);
-        await validateLocation.addUser(sportUser);
-      } else {
-        const sportLocation = await Location.create(location);
-        sportUser = await User.create(newUserSport);
-        await sportLocation.addUser(sportUser);
-      }
-
-      if (sports && sports.length > 0) {
-        for (const sport of sports) {
-          const sportRelation = await Sport.findOne({
-            where: { name: sport },
-          });
-
-          if (sportRelation) {
-            await sportRelation.addUser(sportUser);
-          }
-        }
-      }
-
-      const rolLower = rol.toLowerCase();
-
-      const rolUser = await Rol_user.findOne({
-        where: { name: rolLower },
-      });
-
-      await rolUser.addUser(sportUser);
-
-      const newSportLocation = await User.findOne({
-        where: { email },
-        include: {
-          model: Location,
-        },
-        attributes: { exclude: ["password", "updatedAt"] },
-      });
-
-      if (newSportLocation) return serializer(newSportLocation);
-      else throw new ClientError("Error creating user");
     }
+
+    const newSportLocation = await User.findOne({
+      where: { email },
+      include: {
+        model: Location,
+      },
+      attributes: { exclude: ["password", "updatedAt"] },
+    });
+
+    if (newSportLocation) return serializer(newSportLocation);
+    else throw new ClientError("Error creating user");
 
     const config = {
       host: "smtp.gmail.com",
