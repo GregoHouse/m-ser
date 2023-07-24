@@ -8,7 +8,7 @@ conectarDB().then(() => {
     .sync({ force: false })
     .then(() => {
       createSports();
-      generateUsers();
+      //generateUsers();
       server.listen(server.get("port"), () => {
         console.log(`http://localhost:${server.get("port")}`);
         console.log(`server listening at ${server.get("port")}`);

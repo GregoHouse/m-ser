@@ -2,34 +2,35 @@ const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
   sequelize.define(
-    "Brand",
+    "Sport_user",
     {
-      id_brand: {
+      id_sport_user: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
       },
-      firstname: {
+
+      gender: {
         type: DataTypes.STRING,
         allowNull: false,
       },
 
-      lastname: {
+      day_birth: {
         type: DataTypes.STRING,
         allowNull: false,
       },
 
-      email: {
+      phone: {
         type: DataTypes.STRING,
         allowNull: false,
       },
 
-      password: {
+      credit_card_warranty: {
         type: DataTypes.STRING,
         allowNull: false,
       },
 
-      brand_name: {
+      avatar_img: {
         type: DataTypes.STRING,
         allowNull: false,
       },
