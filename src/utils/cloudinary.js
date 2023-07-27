@@ -1,6 +1,5 @@
 const fs_extra = require("fs-extra");
 const cloudinary = require("cloudinary").v2;
-const ClientError = require("./errors");
 
 const { CLOUD_NAME, API_KEY, API_SECRET } = require("../config/env.js");
 
@@ -25,10 +24,10 @@ const loadPhoto = async (path, type, name) => {
     (error, result) => {
       if (error) {
         console.error("Error al subir la imagen a Cloudinary", error);
-        throw new ClientError("Error al subir la imagen", 500);
+        res.status(500).json({ error: "Error al subir la imagen" });
       } else {
         console.log("Imagen subida a Cloudinary", result);
-        return { public_id: result.public_id, url: result.secure_url };
+        res.json({ public_id: result.public_id, url: result.secure_url });
       }
     }
   );
