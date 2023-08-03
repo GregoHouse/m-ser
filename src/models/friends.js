@@ -2,9 +2,9 @@ const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
   sequelize.define(
-    "User",
+    "Friend",
     {
-      id_user: {
+      id_friend: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
@@ -19,6 +19,11 @@ module.exports = (sequelize) => {
         allowNull: false,
       },
 
+      email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+
       gender: {
         type: DataTypes.STRING,
         defaultValue: null,
@@ -29,23 +34,8 @@ module.exports = (sequelize) => {
         defaultValue: null,
       },
 
-      email: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-
-      password: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-
       phone: {
         type: DataTypes.STRING,
-      },
-
-      credit_card_warranty: {
-        type: DataTypes.STRING,
-        defaultValue: null,
       },
 
       avatar_img: {
@@ -53,14 +43,9 @@ module.exports = (sequelize) => {
         defaultValue: null,
       },
 
-      brand_name: {
-        type: DataTypes.STRING,
-        defaultValue: null,
-      },
-
-      available: {
+      bloqueado: {
         type: DataTypes.BOOLEAN,
-        defaultValue: true,
+        defaultValue: false,
       },
     },
 

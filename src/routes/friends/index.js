@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const getAllFriendsHandler = require("../../handlers/friends");
+const { getAllFriendsHandler } = require("../../handlers/friends");
 
 const friendsRoutes = Router();
 

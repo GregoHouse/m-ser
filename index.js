@@ -5,7 +5,7 @@ const generateUsers = require("./src/utils/generate_data_script.js");
 
 conectarDB().then(() => {
   conn
-    .sync({ force: false })
+    .sync({ force: true })
     .then(() => {
       createRolUser();
       generateUsers();

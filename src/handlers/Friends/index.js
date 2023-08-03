@@ -1,5 +1,5 @@
 const { catchedAsync } = require("../../utils");
 
 module.exports = {
-  getAllFriendsHandler: catchedAsync(require("./getAllFriendsHandler")),
+  getAllFriendsHandler: catchedAsync(require("./getAllFriendsHandler.js")),
 };
