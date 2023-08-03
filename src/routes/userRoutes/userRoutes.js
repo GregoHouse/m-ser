@@ -27,8 +27,8 @@ userRoutes.get(
 );
 userRoutes.put("/update/:id_user", updateUserHandler);
 userRoutes.post("/login", loginUserHandler);
-userRoutes.get("/forgotPassword", forgotPasswordHandler);
-userRoutes.get("/resetPassword", resetPasswordHandler);
+userRoutes.post("/forgotPassword", forgotPasswordHandler);
+userRoutes.post("/resetPassword", resetPasswordHandler);
 userRoutes.get("/:id", getUserByIdHandler);
 
 module.exports = userRoutes;
