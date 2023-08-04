@@ -1,4 +1,4 @@
-const getAllFriendsController = require("../../controllers/friends");
+const { getAllFriendsController } = require("../../controllers/friends");
 
 module.exports = async (req, res) => {
   try {

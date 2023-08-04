@@ -1,5 +1,8 @@
 const { Router } = require("express");
-const { getAllFriendsHandler , addFriendHandler }= require("../../handlers/friends/index.js");
+const {
+  getAllFriendsHandler,
+  addFriendHandler,
+} = require("../../handlers/friends/index.js");
 
 const friendsRoutes = Router();
 
