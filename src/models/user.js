@@ -1,8 +1,14 @@
-const { DataTypes } = require("sequelize");
+const { DataTypes, Model } = require("sequelize");
+const bcrypt = require("bcrypt");
 
 module.exports = (sequelize) => {
-  sequelize.define(
-    "User",
+  class User extends Model {
+    async validatePassword(password) {
+      return await bcrypt.compare(password, this.password);
+    }
+  }
+
+  User.init(
     {
       id_user: {
         type: DataTypes.UUID,
@@ -63,7 +69,18 @@ module.exports = (sequelize) => {
         defaultValue: true,
       },
     },
-
-    { timestamps: true }
+    {
+      hooks: {
+        beforeCreate: async (User) => {
+          const salt = await bcrypt.genSalt();
+          User.password = await bcrypt.hash(User.password, salt);
+        },
+      },
+      sequelize,
+      modelName: "User",
+      timestamps: true,
+    }
   );
+
+  return User;
 };
