@@ -2,10 +2,10 @@ const {
   cloudiconfig,
   loadPhoto,
   DeletePhoto,
-} = require("../../utils/cloudinary");
-const { User, Sport } = require("../../db");
+} = require("../../../utils/cloudinary");
+const { User, Sport } = require("../../../db");
 
-const updateUserController = async (req) => {
+module.exports = async (req) => {
   const { id_user } = req.params;
 
   let { sports } = req.body;
@@ -65,5 +65,3 @@ const updateUserController = async (req) => {
   };
   return newInfoUser;
 };
-
-module.exports = { updateUserController };

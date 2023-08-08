@@ -1,5 +1,5 @@
 require("./db.js");
-require("./controllers/userController/oauth0UserController.js");
+require("./controllers/login/oauth0UserController.js");
 const express = require("express");
 const routes = require("./routes/index");
 const morgan = require("morgan");

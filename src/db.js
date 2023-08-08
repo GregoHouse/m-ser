@@ -23,6 +23,7 @@ const modelProfile = require("./models/profile.js");
 const modelPointSystem = require("./models/point_system.js");
 const modelPointEvent = require("./models/point_event.js");
 const modelRolUser = require("./models/rol_user.js");
+const modelFriend = require("./models/friends.js");
 
 const {
   DB_USER,
@@ -57,6 +58,7 @@ const conectarDB = async () => {
 };
 
 modelUser(sequelize);
+modelFriend(sequelize);
 modelRecoveryCode(sequelize);
 modelAdvertisingSystem(sequelize);
 modelAdvertisingEvent(sequelize);
@@ -86,6 +88,7 @@ const {
   Advertising_event,
   Club,
   Court,
+  Friend,
   Guest_reservation,
   Location,
   Match_result,
@@ -106,6 +109,18 @@ const {
   User,
   Profile,
 } = sequelize.models;
+
+//relacion entre User y friend
+User.belongsToMany(Friend, {
+  through: "User_friends",
+  foreignKey: "id_user",
+  otherKey: "id_friend",
+});
+Friend.belongsToMany(User, {
+  through: "Sport_users",
+  foreignKey: "id_friend",
+  otherKey: "id_user",
+});
 
 //relacion entre User(club) y Club
 User.hasMany(Club, {
