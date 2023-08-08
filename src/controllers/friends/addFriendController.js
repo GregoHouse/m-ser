@@ -1,3 +1,3 @@
-const addFriendController = () => {}
+const addFriendController = () => {};
 
-module.exports= addFriendController;
+module.exports = addFriendController;

@@ -8,8 +8,8 @@ const { User, Sport } = require("../../../db");
 module.exports = async (req) => {
   const { id_user } = req.params;
 
-  let { body } = req;
-  let { sports } = body;
+  let { sports } = req.body;
+
   if (!id_user) {
     throw new Error("No se especificó el ID del usuario");
   } else {
