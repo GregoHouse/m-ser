@@ -1,4 +1,4 @@
 module.exports = {
-  getAllFriendsController: require("../friends/getAllFriendsController"),
+  getAllFriendsController: require("./getAllFriendsController"),
   addFriendController: require("../friends/addFriendController"),
 };
