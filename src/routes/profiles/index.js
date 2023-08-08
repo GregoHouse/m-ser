@@ -1,5 +1,6 @@
 const { Router } = require("express");
-const { createProfileValidation } = require("../../utils/middleware");
+const { createProfileValidation } = require("../../middleware");
+
 const {
   createProfileSportHandler,
   createProfileClubHandler,

@@ -9,7 +9,7 @@ const {
   createUserBrandHandler,
   createUserClubHandler,
 } = require("../../handlers/users");
-const { createUserValidation } = require("../../utils/middleware");
+const { createUserValidation } = require("../../middleware");
 const { loginUserHandler, callback } = require("../../handlers/login");
 const forgotPasswordHandler = require("../../handlers/recoveryPassword/forgotPasswordHandler");
 const resetPasswordHandler = require("../../handlers/recoveryPassword/resetPasswordHandler");
