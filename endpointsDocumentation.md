@@ -103,6 +103,11 @@ Este endpoint devuelve una lista de todas las canchas. Opcionalmente, acepta un 
 
 Si se proporciona el parámetro `id`, el sistema buscará y devolverá los detalles de la cancha individual. Si no se proporciona `id`, el endpoint devolverá todas las canchas disponibles en la base de datos.
 
+</br>
+</br>
+</br>
+</br>
+
 # Friends
 
 ### Ruta para obtener todos los amigos GET /friends
