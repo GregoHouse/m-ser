@@ -1,12 +1,28 @@
+require("./db.js");
+require("./controllers/login/oauth0UserController.js");
 const express = require("express");
 const routes = require("./routes/index");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-require("./db.js");
+const passport = require("passport");
+const session = require("express-session");
+const { OAUTH0_CLIENT_SECRET, PORT } = require("./config/env.js");
 
 const server = express();
 server.name = "API";
+server.set("port", PORT);
+
+server.use(
+  session({
+    secret: OAUTH0_CLIENT_SECRET,
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+server.use(passport.initialize());
+server.use(passport.session());
 
 server.use(morgan("dev"));
 server.use(express.json());

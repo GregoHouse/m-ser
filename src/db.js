@@ -1,4 +1,3 @@
-require("dotenv").config();
 const { Sequelize } = require("sequelize");
 const modelUser = require("./models/user.js");
 const modelRecoveryCode = require("./models/recoveryCode.js");
@@ -24,9 +23,15 @@ const modelProfile = require("./models/profile.js");
 const modelPointSystem = require("./models/point_system.js");
 const modelPointEvent = require("./models/point_event.js");
 const modelRolUser = require("./models/rol_user.js");
+const modelFriend = require("./models/friends.js");
 
-const { DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME, POSTGRES_URL } =
-  process.env;
+const {
+  DB_USER,
+  DB_PASSWORD,
+  DB_HOST,
+  DB_PORT,
+  DB_NAME,
+} = require("./config/env.js");
 
 const sequelize = new Sequelize(
   `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}`,
@@ -42,7 +47,18 @@ const sequelize = new Sequelize(
 
 });*/
 
+const conectarDB = async () => {
+  try {
+    await sequelize.authenticate();
+    console.log("conectados a la base de datos");
+  } catch (error) {
+    //si hay un error consologear y salir de la conexion
+    process.exit(1);
+  }
+};
+
 modelUser(sequelize);
+modelFriend(sequelize);
 modelRecoveryCode(sequelize);
 modelAdvertisingSystem(sequelize);
 modelAdvertisingEvent(sequelize);
@@ -66,13 +82,13 @@ modelProfile(sequelize);
 modelPointEvent(sequelize);
 modelPointSystem(sequelize);
 modelRolUser(sequelize);
-//sequelize.sync({force: true});
 
 const {
   Advertising_system,
   Advertising_event,
   Club,
   Court,
+  Friend,
   Guest_reservation,
   Location,
   Match_result,
@@ -93,6 +109,26 @@ const {
   User,
   Profile,
 } = sequelize.models;
+
+//relacion entre User y friend
+User.belongsToMany(Friend, {
+  through: "User_friends",
+  foreignKey: "id_user",
+  otherKey: "id_friend",
+});
+Friend.belongsToMany(User, {
+  through: "Sport_users",
+  foreignKey: "id_friend",
+  otherKey: "id_user",
+});
+
+//relacion entre User(club) y Club
+User.hasMany(Club, {
+  foreignKey: "id_user",
+});
+Club.belongsTo(User, {
+  foreignKey: "id_user",
+});
 
 //relacion entre User y Rol
 Rol_user.hasMany(User, {
@@ -133,10 +169,6 @@ Profile.hasMany(Rating_user, {
 Rating_user.belongsTo(Profile, {
   foreignKey: "id_profile",
 });
-
-//relacion entre user y point_event
-Profile.hasMany(Rating_user);
-Rating_user.belongsTo(Profile);
 
 //relacion point_system y point_event
 Point_system.hasMany(Point_event, {
@@ -181,10 +213,6 @@ Sport.hasMany(Profile, {
 Profile.belongsTo(Sport, {
   foreignKey: "id_sport",
 });
-
-//relacion entre Sport y Profile////;
-Sport.hasMany(Profile);
-Profile.belongsTo(Sport);
 
 //relacion rating_user y user
 User.hasMany(Rating_user, {
@@ -314,8 +342,12 @@ Profile.belongsToMany(Club, {
 });
 
 //relacion entre location y Court
-/*Location.hasMany(Court);
-Court.belongsTo(Location);*/
+Location.hasMany(Court, {
+  foreignKey: "id_location",
+});
+Court.belongsTo(Location, {
+  foreignKey: "id_location",
+});
 
 //relacion entre Score_match y team_match
 Score_match.hasOne(Team_match, {
@@ -337,4 +369,5 @@ module.exports = {
   sequelize,
   ...sequelize.models,
   conn: sequelize,
+  conectarDB,
 };

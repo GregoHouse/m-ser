@@ -1,3 +1,4 @@
 module.exports = {
-    createUserValidation: require('./createUserValidation.js')
-}
+  createUserValidation: require("./createUserValidation.js"),
+  createProfileValidation: require("./createProfileValidation.js"),
+};
