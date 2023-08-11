@@ -7,6 +7,6 @@ const {
 const friendsRoutes = Router();
 
 friendsRoutes.get("/", getAllFriendsHandler);
-friendsRoutes.post("/friends", addFriendHandler);
+friendsRoutes.post("/", addFriendHandler);
 
 module.exports = friendsRoutes;

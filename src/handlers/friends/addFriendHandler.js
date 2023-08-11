@@ -1,4 +1,4 @@
-const addFriendController = require("../../controllers/friends");
+const { addFriendController } = require("../../controllers/friends/index.js");
 
 const addFriendHandler = async (req, res) => {
   try {
